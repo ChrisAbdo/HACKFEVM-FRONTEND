@@ -85,7 +85,7 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
-      <div className="bg-gradient-to-r from-[#fdeab1] to-white h-screen">
+      <div className="bg-gradient-to-r from-[#fdeab1] to-white min-h-screen">
         <Navbar Web3Handler={Web3Handler} account={account} />
         <Component {...pageProps} Web3Handler={Web3Handler} account={account} />
         <Toaster />
