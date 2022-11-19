@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const create = () => {
   const [files, setFile] = useState([]);
   const [message, setMessage] = useState();
   const handleFile = (e) => {
-    setMessage('');
+    setMessage("");
     let file = e.target.files;
 
     for (let i = 0; i < file.length; i++) {
-      const fileType = file[i]['type'];
-      const validImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
+      const fileType = file[i]["type"];
+      const validImageTypes = ["image/gif", "image/jpeg", "image/png"];
       if (validImageTypes.includes(fileType)) {
         setFile([...files, file[i]]);
       } else {
-        setMessage('only images accepted');
+        setMessage("only images accepted");
       }
     }
   };
@@ -23,7 +23,7 @@ const create = () => {
   return (
     <div>
       <div className="flex justify-center items-center mb-4">
-        <h1 className="text-2xl font-bold text-black mt-4">
+        <h1 className="text-3xl  text-black mt-4">
           ✍️ Create a soulbound token
         </h1>
       </div>
@@ -85,7 +85,7 @@ const create = () => {
             </a>
           </div>
         </div>
-        <div className="card-body">
+        <div className="card-body justify-center">
           <div className="flex justify-center items-center bg-white px-2">
             <div className="p-3 w-full rounded-md">
               <span className="flex justify-center items-center bg-white text-[12px] mb-1 text-red-500">

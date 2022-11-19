@@ -12,8 +12,8 @@ import { FreeMode, Pagination } from "swiper";
 const LandingPage = () => {
   return (
     <div className="">
-      <div className="-mb-14 flex flex-col">
-        <div className="hero mt-24 mb-12">
+      <div className=" flex flex-col">
+        <div className="hero mt-24 ">
           <div className="mt-12 hero-content text-center">
             <div>
               <h1 className="text-6xl  text-black">
@@ -157,7 +157,9 @@ const LandingPage = () => {
         </div>
       </div>
 
-      <Footer />
+      <footer className="border-t-[2px] border-[#f2dbd0] bg-white h-11">
+        <h1 className=" text-black text-center ">Made with ❤️ for HackFEVM</h1>
+      </footer>
     </div>
   );
 };
