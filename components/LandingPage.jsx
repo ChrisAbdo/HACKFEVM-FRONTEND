@@ -12,10 +12,9 @@ import { FreeMode, Pagination } from "swiper";
 const LandingPage = () => {
   return (
     <div className="">
-      {/* make the footer go to the bottom of the page */}
-      <div className="mt-24 flex flex-col">
-        <div className="hero mt-12 mb-12">
-          <div className="hero-content text-center">
+      <div className="-mb-14 flex flex-col">
+        <div className="hero mt-24 mb-12">
+          <div className="mt-12 hero-content text-center">
             <div>
               <h1 className="text-6xl  text-black">
                 Issue soulbound credentials
@@ -38,7 +37,6 @@ const LandingPage = () => {
           </div>
         </div>
 
-        {/* make a section of 5 components, each with a title, description, and image. make them stack on top of each other in small screen */}
         <div className="mt-12 mb-72">
           <div className="mb-24 ">
             <h1 className="text-2xl text-black ml-8">Featured Credentials</h1>
@@ -47,7 +45,7 @@ const LandingPage = () => {
               spaceBetween={30}
               freeMode={true}
               modules={[FreeMode, Pagination]}
-              className="mySwiper bg-white mt-2 border-t-[2px] border-b-[2px] border-[#f2dbd0]"
+              className="mySwiper bg-white mt-2 border-t-[2px] border-b-[2px] border-[#f2dbd0] cursor-grab"
             >
               <div className="py-12 px-12 grid xs:grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-2">
                 <div className="mt-4">
