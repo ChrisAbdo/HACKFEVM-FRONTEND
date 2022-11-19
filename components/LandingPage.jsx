@@ -23,7 +23,7 @@ const LandingPage = () => {
             </h1>
 
             <a
-              href="#_"
+              href="/create"
               className="relative inline-block px-4 py-2 font-medium group mt-4 w-[200px] mx-auto"
             >
               <span className="absolute rounded-lg inset-0 w-full h-full transition duration-200 ease-out transform translate-x-1 translate-y-1 bg-[#bff22d] border-[2px] border-black group-hover:-translate-x-0 group-hover:-translate-y-0"></span>
@@ -40,13 +40,39 @@ const LandingPage = () => {
           Featured Credentials
         </h1>
         <Swiper
-          slidesPerView={4.5}
+          slidesPerView={5}
           spaceBetween={30}
           freeMode={true}
           modules={[FreeMode, Pagination]}
           className="mySwiper"
         >
           <div className="py-12 px-12 grid xs:grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4  bg-white border-t-[2px] border-b-[2px] border-[#f2dbd0]">
+            <SwiperSlide>
+              <div className="col-span-1">
+                <div className="flex flex-col items-center">
+                  <Image src="/loading.png" width={200} height={200} alt="yo" />
+                  <h1 className="text-2xl font-bold text-black mt-4">
+                    Dev Bootcamp
+                  </h1>
+                  <p className="text-center text-black mt-2 font-semibold">
+                    Completed
+                  </p>
+                </div>
+              </div>
+            </SwiperSlide>
+            <SwiperSlide>
+              <div className="col-span-1">
+                <div className="flex flex-col items-center">
+                  <Image src="/loading.png" width={200} height={200} alt="yo" />
+                  <h1 className="text-2xl font-bold text-black mt-4">
+                    Dev Bootcamp
+                  </h1>
+                  <p className="text-center text-black mt-2 font-semibold">
+                    Completed
+                  </p>
+                </div>
+              </div>
+            </SwiperSlide>
             <SwiperSlide>
               <div className="col-span-1">
                 <div className="flex flex-col items-center">
