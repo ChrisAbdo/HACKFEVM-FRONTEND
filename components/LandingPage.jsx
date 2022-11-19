@@ -12,7 +12,7 @@ const LandingPage = () => {
   return (
     <div className="">
       <div className=" flex flex-col">
-        <div className="hero mt-24 ">
+        <div className="hero mt-12 ">
           <div className="mt-12 hero-content text-center">
             <div>
               <h1 className="text-6xl  text-black">
