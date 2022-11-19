@@ -1,6 +1,5 @@
 import React from "react";
 import Image from "next/image";
-import Footer from "../components/Footer";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 // Import Swiper styles
@@ -156,10 +155,6 @@ const LandingPage = () => {
           </div>
         </div>
       </div>
-
-      <footer className="border-t-[2px] border-[#f2dbd0] bg-white h-11">
-        <h1 className=" text-black text-center ">Made with ❤️ for HackFEVM</h1>
-      </footer>
     </div>
   );
 };
