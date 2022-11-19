@@ -1,37 +1,7 @@
-import Image from 'next/image';
-import { useState, useEffect } from 'react';
-import Web3 from 'web3';
+import Image from "next/image";
+import { useState, useEffect } from "react";
+import Web3 from "web3";
 const Navbar = ({ Web3Handler, account }) => {
-  // make the navbar fade into white when scrolled down at least 1 pixel
-  const [scroll, setScroll] = useState(false);
-
-  const changeNav = () => {
-    if (window.scrollY >= 1) {
-      setScroll(true);
-      //   make the navbar fade into white when scrolled down at least 1 pixel
-      const background = document.getElementById('navbar');
-      background.classList.add('bg-white');
-    } else {
-      setScroll(false);
-    }
-  };
-
-  useEffect(() => {
-    const navbar = document.getElementById('navbar');
-    const handleScroll = () => {
-      if (window.scrollY > 0) {
-        navbar.setAttribute('data-theme', 'light');
-        navbar.style.transition = 'all 0.2s ease';
-      } else {
-        navbar.removeAttribute('data-theme');
-      }
-    };
-    document.addEventListener('scroll', handleScroll);
-    return () => {
-      document.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
   return (
     <div id="navbar" className="navbar sticky top-0 z-50 ">
       <div className="navbar-start">
@@ -93,7 +63,7 @@ const Navbar = ({ Web3Handler, account }) => {
           height={50}
           alt="yo"
           onClick={() => {
-            window.location.href = '/';
+            window.location.href = "/";
           }}
         />
       </div>
@@ -141,7 +111,7 @@ const Navbar = ({ Web3Handler, account }) => {
           <span className="absolute rounded-lg inset-0 w-full h-full bg-white border-2 border-black group-hover:bg-[#bff22d]"></span>
           {account ? (
             <span className="relative text-black">
-              {account.slice(0, 6) + '...' + account.slice(-4)}
+              {account.slice(0, 6) + "..." + account.slice(-4)}
             </span>
           ) : (
             <span className="relative text-black">Connect Wallet</span>
