@@ -92,17 +92,23 @@ const Navbar = () => {
           width={50}
           height={50}
           alt="yo"
+          onClick={() => {
+            window.location.href = "/";
+          }}
         />
       </div>
 
       <div className="navbar-end">
         <div className="flex space-x-8 mr-8 text-lg">
           <a
-            href="/"
+            href="/create"
+            id="create"
             className="hidden md:block relative before:content-[''] before:absolute before:block before:w-full before:h-[1px] 
               before:bottom-0 before:left-0 before:bg-black
               before:hover:scale-x-100 before:scale-x-0 before:origin-top-left
-              before:transition before:ease-in-out before:duration-300"
+              before:transition before:ease-in-out before:duration-300
+         
+                active:after:content-[''] active:after:absolute active:after:block active:after:w-full active:after:h-[1px]"
           >
             Create
           </a>
@@ -113,7 +119,7 @@ const Navbar = () => {
               before:hover:scale-x-100 before:scale-x-0 before:origin-top-left
               before:transition before:ease-in-out before:duration-300"
           >
-            Send
+            Assign
           </a>
           <a
             href="/"

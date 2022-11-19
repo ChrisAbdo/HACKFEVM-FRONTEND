@@ -1,6 +1,14 @@
 import React from "react";
 import Image from "next/image";
 import Footer from "../components/Footer";
+import { Swiper, SwiperSlide } from "swiper/react";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/free-mode";
+import "swiper/css/pagination";
+// import required modules
+import { FreeMode, Pagination } from "swiper";
 const LandingPage = () => {
   return (
     <div className="">
@@ -31,57 +39,81 @@ const LandingPage = () => {
         <h1 className="text-xl font-semibold text-black ml-8">
           Featured Credentials
         </h1>
-        <div className="py-12 px-12 grid xs:grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4  bg-white border-t-[2px] border-b-[2px] border-[#f2dbd0]">
-          <div className="col-span-1">
-            <div className="flex flex-col items-center">
-              <Image src="/loading.png" width={200} height={200} alt="yo" />
-              <h1 className="text-2xl font-bold text-black mt-4">
-                Dev Bootcamp
-              </h1>
-              <p className="text-center text-black mt-2 font-semibold">
-                Completed
-              </p>
-            </div>
+        <Swiper
+          slidesPerView={4.5}
+          spaceBetween={30}
+          freeMode={true}
+          modules={[FreeMode, Pagination]}
+          className="mySwiper"
+        >
+          <div className="py-12 px-12 grid xs:grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4  bg-white border-t-[2px] border-b-[2px] border-[#f2dbd0]">
+            <SwiperSlide>
+              <div className="col-span-1">
+                <div className="flex flex-col items-center">
+                  <Image src="/loading.png" width={200} height={200} alt="yo" />
+                  <h1 className="text-2xl font-bold text-black mt-4">
+                    Dev Bootcamp
+                  </h1>
+                  <p className="text-center text-black mt-2 font-semibold">
+                    Completed
+                  </p>
+                </div>
+              </div>
+            </SwiperSlide>
+            <SwiperSlide>
+              <div className="col-span-1">
+                <div className="flex flex-col items-center">
+                  <Image src="/loading.png" width={200} height={200} alt="yo" />
+                  <h1 className="text-2xl font-bold text-black mt-4">
+                    Dev Bootcamp
+                  </h1>
+                  <p className="text-center text-black mt-2 font-semibold">
+                    Completed
+                  </p>
+                </div>
+              </div>
+            </SwiperSlide>
+            <SwiperSlide>
+              <div className="col-span-1">
+                <div className="flex flex-col items-center">
+                  <Image src="/loading.png" width={200} height={200} alt="yo" />
+                  <h1 className="text-2xl font-bold text-black mt-4">
+                    Dev Bootcamp
+                  </h1>
+                  <p className="text-center text-black mt-2 font-semibold">
+                    Completed
+                  </p>
+                </div>
+              </div>
+            </SwiperSlide>
+            <SwiperSlide>
+              <div className="col-span-1">
+                <div className="flex flex-col items-center">
+                  <Image src="/loading.png" width={200} height={200} alt="yo" />
+                  <h1 className="text-2xl font-bold text-black mt-4">
+                    Dev Bootcamp
+                  </h1>
+                  <p className="text-center text-black mt-2 font-semibold">
+                    Completed
+                  </p>
+                </div>
+              </div>
+            </SwiperSlide>
+            <SwiperSlide>
+              <div className="col-span-1">
+                <div className="flex flex-col items-center">
+                  <Image src="/loading.png" width={200} height={200} alt="yo" />
+                  <h1 className="text-2xl font-bold text-black mt-4">
+                    Dev Bootcamp
+                  </h1>
+                  <p className="text-center text-black mt-2 font-semibold">
+                    Completed
+                  </p>
+                </div>
+              </div>
+            </SwiperSlide>
           </div>
-          <div className="col-span-1">
-            <div className="flex flex-col items-center">
-              <Image src="/loading.png" width={200} height={200} alt="yo" />
-              <h1 className="text-2xl font-bold text-black mt-4">
-                FVM Fellowship
-              </h1>
-              <p className="text-center text-black mt-2 font-semibold">
-                Fellowship
-              </p>
-            </div>
-          </div>
-          <div className="col-span-1">
-            <div className="flex flex-col items-center">
-              <Image src="/loading.png" width={200} height={200} alt="yo" />
-              <h1 className="text-2xl font-bold text-black mt-4">HackFEVM</h1>
-              <p className="text-center text-black mt-2 font-semibold">
-                Participant
-              </p>
-            </div>
-          </div>
-          <div className="col-span-1">
-            <div className="flex flex-col items-center">
-              <Image src="/loading.png" width={200} height={200} alt="yo" />
-              <h1 className="text-2xl font-bold text-black mt-4">ETHNYC</h1>
-              <p className="text-center text-black mt-2 font-semibold">
-                Participant
-              </p>
-            </div>
-          </div>
-          <div className="col-span-1">
-            <div className="flex flex-col items-center">
-              <Image src="/loading.png" width={200} height={200} alt="yo" />
-              <h1 className="text-2xl font-bold text-black mt-4">Devcon VI</h1>
-              <p className="text-center text-black mt-2 font-semibold">
-                Attendee
-              </p>
-            </div>
-          </div>
-        </div>
+        </Swiper>
       </div>
       <div className="hero">
         <div className="hero-content text-center">
