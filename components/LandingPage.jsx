@@ -17,10 +17,10 @@ const LandingPage = () => {
         <div className="hero mt-12 mb-12">
           <div className="hero-content text-center">
             <div>
-              <h1 className="text-6xl font-bold text-black">
+              <h1 className="text-6xl  text-black">
                 Issue soulbound credentials
               </h1>
-              <h1 className="text-3xl text-black font-semibold mt-2">
+              <h1 className="text-3xl text-black mt-2">
                 with provably stored metadata, powered by FVM
               </h1>
 
@@ -30,7 +30,9 @@ const LandingPage = () => {
               >
                 <span className="absolute rounded-lg inset-0 w-full h-full transition duration-200 ease-out transform translate-x-1 translate-y-1 bg-[#bff22d] border-[2px] border-black group-hover:-translate-x-0 group-hover:-translate-y-0"></span>
                 <span className="absolute rounded-lg inset-0 w-full h-full bg-white border-2 border-black group-hover:bg-[#bff22d]"></span>
-                <span className="relative text-black">Create a credential</span>
+                <span className="relative text-lg text-black">
+                  Create a credential
+                </span>
               </a>
             </div>
           </div>
@@ -38,144 +40,119 @@ const LandingPage = () => {
 
         {/* make a section of 5 components, each with a title, description, and image. make them stack on top of each other in small screen */}
         <div className="mt-12 mb-72">
-          <div className="mb-24 overflow-hidden">
-            <h1 className="text-xl font-semibold text-black ml-8">
-              Featured Credentials
-            </h1>
+          <div className="mb-24 ">
+            <h1 className="text-2xl text-black ml-8">Featured Credentials</h1>
             <Swiper
               slidesPerView={5}
               spaceBetween={30}
               freeMode={true}
               modules={[FreeMode, Pagination]}
-              className="mySwiper"
+              className="mySwiper bg-white mt-2 border-t-[2px] border-b-[2px] border-[#f2dbd0]"
             >
-              <div className="py-12 px-12 grid xs:grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4  bg-white border-t-[2px] border-b-[2px] border-[#f2dbd0]">
-                <SwiperSlide>
-                  <div className="col-span-1">
-                    <div className="flex flex-col items-center">
-                      <Image
-                        src="/loading.png"
-                        width={200}
-                        height={200}
-                        alt="yo"
-                      />
-                      <h1 className="text-2xl font-bold text-black mt-4">
-                        Dev Bootcamp
-                      </h1>
-                      <p className="text-center text-black mt-2 font-semibold">
-                        Completed
-                      </p>
+              <div className="py-12 px-12 grid xs:grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-2">
+                <div className="mt-4">
+                  <SwiperSlide className="pt-12 pl-12 pb-12">
+                    <div className="col-span-1">
+                      <div className="flex flex-col items-center">
+                        <Image
+                          src="/alchemy.png"
+                          width={200}
+                          height={200}
+                          alt="yo"
+                        />
+                        <h1 className="text-xl  text-black mt-4">
+                          Dev Bootcamp by Alchemy
+                        </h1>
+                      </div>
                     </div>
-                  </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <div className="col-span-1">
-                    <div className="flex flex-col items-center">
-                      <Image
-                        src="/loading.png"
-                        width={200}
-                        height={200}
-                        alt="yo"
-                      />
-                      <h1 className="text-2xl font-bold text-black mt-4">
-                        Dev Bootcamp
-                      </h1>
-                      <p className="text-center text-black mt-2 font-semibold">
-                        Completed
-                      </p>
+                  </SwiperSlide>
+                  <SwiperSlide className="pt-12 pl-12 pb-12">
+                    <div className="col-span-1">
+                      <div className="flex flex-col items-center">
+                        <Image
+                          src="/chain.png"
+                          width={200}
+                          height={200}
+                          alt="yo"
+                        />
+                        <h1 className="text-xl  text-black mt-4">
+                          FVM Fellowship: Cohort 1 by Radius
+                        </h1>
+                      </div>
                     </div>
-                  </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <div className="col-span-1">
-                    <div className="flex flex-col items-center">
-                      <Image
-                        src="/loading.png"
-                        width={200}
-                        height={200}
-                        alt="yo"
-                      />
-                      <h1 className="text-2xl font-bold text-black mt-4">
-                        Dev Bootcamp
-                      </h1>
-                      <p className="text-center text-black mt-2 font-semibold">
-                        Completed
-                      </p>
+                  </SwiperSlide>
+                  <SwiperSlide className="pt-12 pl-12 pb-12">
+                    <div className="col-span-1">
+                      <div className="flex flex-col items-center">
+                        <Image
+                          src="/block.png"
+                          width={200}
+                          height={200}
+                          alt="yo"
+                        />
+                        <h1 className="text-xl  text-black mt-4">
+                          HackFEVM hacker by ETHGlobal
+                        </h1>
+                      </div>
                     </div>
-                  </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <div className="col-span-1">
-                    <div className="flex flex-col items-center">
-                      <Image
-                        src="/loading.png"
-                        width={200}
-                        height={200}
-                        alt="yo"
-                      />
-                      <h1 className="text-2xl font-bold text-black mt-4">
-                        Dev Bootcamp
-                      </h1>
-                      <p className="text-center text-black mt-2 font-semibold">
-                        Completed
-                      </p>
+                  </SwiperSlide>
+                  <SwiperSlide className="pt-12 pl-12 pb-12">
+                    <div className="col-span-1">
+                      <div className="flex flex-col items-center">
+                        <Image
+                          src="/ethny.png"
+                          width={200}
+                          height={200}
+                          alt="yo"
+                        />
+                        <h1 className="text-xl text-black mt-4">
+                          ETHNYC hacker by ETHGlobal
+                        </h1>
+                      </div>
                     </div>
-                  </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <div className="col-span-1">
-                    <div className="flex flex-col items-center">
-                      <Image
-                        src="/loading.png"
-                        width={200}
-                        height={200}
-                        alt="yo"
-                      />
-                      <h1 className="text-2xl font-bold text-black mt-4">
-                        Dev Bootcamp
-                      </h1>
-                      <p className="text-center text-black mt-2 font-semibold">
-                        Completed
-                      </p>
+                  </SwiperSlide>
+                  <SwiperSlide className="pt-12 pl-12 pb-12">
+                    <div className="col-span-1">
+                      <div className="flex flex-col items-center">
+                        <Image
+                          src="/unicorn.png"
+                          width={200}
+                          height={200}
+                          alt="yo"
+                        />
+                        <h1 className="text-xl  text-black mt-4">
+                          Devcon VI by ETH Foundation
+                        </h1>
+                      </div>
                     </div>
-                  </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <div className="col-span-1">
-                    <div className="flex flex-col items-center">
-                      <Image
-                        src="/loading.png"
-                        width={200}
-                        height={200}
-                        alt="yo"
-                      />
-                      <h1 className="text-2xl font-bold text-black mt-4">
-                        Dev Bootcamp
-                      </h1>
-                      <p className="text-center text-black mt-2 font-semibold">
-                        Completed
-                      </p>
+                  </SwiperSlide>
+                  <SwiperSlide className="pt-12 pl-12 pb-12">
+                    <div className="col-span-1">
+                      <div className="flex flex-col items-center">
+                        <Image
+                          src="/loading.png"
+                          width={200}
+                          height={200}
+                          alt="yo"
+                        />
+                        <h1 className="text-xl text-black mt-4">placeholder</h1>
+                      </div>
                     </div>
-                  </div>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <div className="col-span-1">
-                    <div className="flex flex-col items-center">
-                      <Image
-                        src="/loading.png"
-                        width={200}
-                        height={200}
-                        alt="yo"
-                      />
-                      <h1 className="text-2xl font-bold text-black mt-4">
-                        Dev Bootcamp
-                      </h1>
-                      <p className="text-center text-black mt-2 font-semibold">
-                        Completed
-                      </p>
+                  </SwiperSlide>
+                  <SwiperSlide className="pt-12 pl-12 pb-12">
+                    <div className="col-span-1">
+                      <div className="flex flex-col items-center">
+                        <Image
+                          src="/loading.png"
+                          width={200}
+                          height={200}
+                          alt="yo"
+                        />
+                        <h1 className="text-xl text-black mt-4">plceholder</h1>
+                      </div>
                     </div>
-                  </div>
-                </SwiperSlide>
+                  </SwiperSlide>
+                </div>
               </div>
             </Swiper>
           </div>
