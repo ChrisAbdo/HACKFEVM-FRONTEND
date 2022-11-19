@@ -127,12 +127,14 @@ const LandingPage = () => {
                     <div className="col-span-1">
                       <div className="flex flex-col items-center">
                         <Image
-                          src="/loading.png"
+                          src="/pic1.png"
                           width={200}
                           height={200}
                           alt="yo"
                         />
-                        <h1 className="text-xl text-black mt-4">placeholder</h1>
+                        <h1 className="text-xl text-black mt-4">
+                          The Deal Monitor
+                        </h1>
                       </div>
                     </div>
                   </SwiperSlide>
@@ -140,12 +142,14 @@ const LandingPage = () => {
                     <div className="col-span-1">
                       <div className="flex flex-col items-center">
                         <Image
-                          src="/loading.png"
+                          src="/pic2.png"
                           width={200}
                           height={200}
                           alt="yo"
                         />
-                        <h1 className="text-xl text-black mt-4">plceholder</h1>
+                        <h1 className="text-xl text-black mt-4">
+                          The Deal Monitor
+                        </h1>
                       </div>
                     </div>
                   </SwiperSlide>
