@@ -1,7 +1,48 @@
-import Image from "next/image";
-import { useState, useEffect } from "react";
-import Web3 from "web3";
-const Navbar = ({ Web3Handler, account }) => {
+import Image from 'next/image';
+import { useState, useEffect } from 'react';
+import { useAccount, useConnect, useEnsName, useDisconnect } from 'wagmi';
+import { InjectedConnector } from 'wagmi/connectors/injected';
+import toast, { Toaster } from 'react-hot-toast';
+import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
+
+const Navbar = () => {
+  const { address, isConnected } = useAccount();
+  const { data: ensName } = useEnsName({ address });
+  const { disconnect } = useDisconnect({
+    onSuccess() {
+      toast('Account disconnected!', {
+        style: {
+          border: '2px solid #000',
+        },
+      });
+    },
+    onError() {
+      toast.error('Failed to disconnect account!', {
+        style: {
+          border: '2px solid #000',
+        },
+      });
+    },
+  });
+  const { connect } = useConnect({
+    chainId: 31415,
+    connector: new InjectedConnector(),
+    onSuccess() {
+      toast.success('Account connected!', {
+        style: {
+          border: '2px solid #000',
+        },
+      });
+    },
+    onError() {
+      toast.error('Error connecting account!', {
+        style: {
+          border: '2px solid #000',
+        },
+      });
+    },
+  });
+
   return (
     <div id="navbar" className="navbar sticky top-0 z-50 ">
       <div className="navbar-start">
@@ -63,7 +104,7 @@ const Navbar = ({ Web3Handler, account }) => {
           height={50}
           alt="yo"
           onClick={() => {
-            window.location.href = "/";
+            window.location.href = '/';
           }}
         />
       </div>
@@ -103,15 +144,19 @@ const Navbar = ({ Web3Handler, account }) => {
         </div>
         <button
           onClick={() => {
-            Web3Handler();
+            if (isConnected) {
+              disconnect();
+            } else {
+              connect();
+            }
           }}
           className="relative inline-block px-4 py-2 font-medium group "
         >
           <span className="absolute rounded-lg inset-0 w-full h-full transition duration-200 ease-out transform translate-x-1 translate-y-1 bg-[#bff22d] border-[2px] border-black group-hover:-translate-x-0 group-hover:-translate-y-0"></span>
           <span className="absolute rounded-lg inset-0 w-full h-full bg-white border-2 border-black group-hover:bg-[#bff22d]"></span>
-          {account ? (
+          {address ? (
             <span className="relative text-black">
-              {account.slice(0, 6) + "..." + account.slice(-4)}
+              {address.slice(0, 6) + '...' + address.slice(-4)}
             </span>
           ) : (
             <span className="relative text-black">Connect Wallet</span>
