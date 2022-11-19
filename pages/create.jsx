@@ -1,19 +1,19 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 const create = () => {
   const [files, setFile] = useState([]);
   const [message, setMessage] = useState();
   const handleFile = (e) => {
-    setMessage("");
+    setMessage('');
     let file = e.target.files;
 
     for (let i = 0; i < file.length; i++) {
-      const fileType = file[i]["type"];
-      const validImageTypes = ["image/gif", "image/jpeg", "image/png"];
+      const fileType = file[i]['type'];
+      const validImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
       if (validImageTypes.includes(fileType)) {
         setFile([...files, file[i]]);
       } else {
-        setMessage("only images accepted");
+        setMessage('only images accepted');
       }
     }
   };
@@ -24,7 +24,7 @@ const create = () => {
     <div>
       <div className="flex justify-center items-center mb-4">
         <h1 className="text-2xl font-bold text-black mt-4">
-          ✍️Create a soulbound token
+          ✍️ Create a soulbound token
         </h1>
       </div>
       <div className="card lg:card-side bg-white border-[2px] border-[#f2dbd0] ml-12 mr-12 rounded-2xl">

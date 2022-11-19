@@ -1,6 +1,6 @@
-import Image from "next/image";
-import { useState, useEffect } from "react";
-import Web3 from "web3";
+import Image from 'next/image';
+import { useState, useEffect } from 'react';
+import Web3 from 'web3';
 const Navbar = ({ Web3Handler, account }) => {
   // make the navbar fade into white when scrolled down at least 1 pixel
   const [scroll, setScroll] = useState(false);
@@ -9,26 +9,26 @@ const Navbar = ({ Web3Handler, account }) => {
     if (window.scrollY >= 1) {
       setScroll(true);
       //   make the navbar fade into white when scrolled down at least 1 pixel
-      const background = document.getElementById("navbar");
-      background.classList.add("bg-white");
+      const background = document.getElementById('navbar');
+      background.classList.add('bg-white');
     } else {
       setScroll(false);
     }
   };
 
   useEffect(() => {
-    const navbar = document.getElementById("navbar");
+    const navbar = document.getElementById('navbar');
     const handleScroll = () => {
       if (window.scrollY > 0) {
-        navbar.setAttribute("data-theme", "light");
-        navbar.style.transition = "all 0.2s ease";
+        navbar.setAttribute('data-theme', 'light');
+        navbar.style.transition = 'all 0.2s ease';
       } else {
-        navbar.removeAttribute("data-theme");
+        navbar.removeAttribute('data-theme');
       }
     };
-    document.addEventListener("scroll", handleScroll);
+    document.addEventListener('scroll', handleScroll);
     return () => {
-      document.removeEventListener("scroll", handleScroll);
+      document.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
@@ -93,7 +93,7 @@ const Navbar = ({ Web3Handler, account }) => {
           height={50}
           alt="yo"
           onClick={() => {
-            window.location.href = "/";
+            window.location.href = '/';
           }}
         />
       </div>
@@ -113,7 +113,7 @@ const Navbar = ({ Web3Handler, account }) => {
             Create
           </a>
           <a
-            href="/"
+            href="/assign"
             className="hidden md:block relative before:content-[''] before:absolute before:block before:w-full before:h-[1px] 
               before:bottom-0 before:left-0 before:bg-black
               before:hover:scale-x-100 before:scale-x-0 before:origin-top-left
@@ -141,7 +141,7 @@ const Navbar = ({ Web3Handler, account }) => {
           <span className="absolute rounded-lg inset-0 w-full h-full bg-white border-2 border-black group-hover:bg-[#bff22d]"></span>
           {account ? (
             <span className="relative text-black">
-              {account.slice(0, 6) + "..." + account.slice(-4)}
+              {account.slice(0, 6) + '...' + account.slice(-4)}
             </span>
           ) : (
             <span className="relative text-black">Connect Wallet</span>
