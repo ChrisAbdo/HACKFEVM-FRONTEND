@@ -16,11 +16,11 @@ const LandingPage = () => {
 
             <a
               href="#_"
-              class="relative inline-block px-4 py-2 font-medium group mt-4 w-[200px] mx-auto"
+              className="relative inline-block px-4 py-2 font-medium group mt-4 w-[200px] mx-auto"
             >
-              <span class="absolute rounded-lg inset-0 w-full h-full transition duration-200 ease-out transform translate-x-1 translate-y-1 bg-[#bff22d] border-[2px] border-black group-hover:-translate-x-0 group-hover:-translate-y-0"></span>
-              <span class="absolute rounded-lg inset-0 w-full h-full bg-white border-2 border-black group-hover:bg-[#bff22d]"></span>
-              <span class="relative text-black">Create a credential</span>
+              <span className="absolute rounded-lg inset-0 w-full h-full transition duration-200 ease-out transform translate-x-1 translate-y-1 bg-[#bff22d] border-[2px] border-black group-hover:-translate-x-0 group-hover:-translate-y-0"></span>
+              <span className="absolute rounded-lg inset-0 w-full h-full bg-white border-2 border-black group-hover:bg-[#bff22d]"></span>
+              <span className="relative text-black">Create a credential</span>
             </a>
           </div>
         </div>
@@ -34,7 +34,7 @@ const LandingPage = () => {
         <div className="py-12 px-12 grid xs:grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4  bg-white border-t-[2px] border-b-[2px] border-[#f2dbd0]">
           <div className="col-span-1">
             <div className="flex flex-col items-center">
-              <Image src="/loading.png" width={200} height={200} />
+              <Image src="/loading.png" width={200} height={200} alt="yo" />
               <h1 className="text-2xl font-bold text-black mt-4">
                 Dev Bootcamp
               </h1>
@@ -45,7 +45,7 @@ const LandingPage = () => {
           </div>
           <div className="col-span-1">
             <div className="flex flex-col items-center">
-              <Image src="/loading.png" width={200} height={200} />
+              <Image src="/loading.png" width={200} height={200} alt="yo" />
               <h1 className="text-2xl font-bold text-black mt-4">
                 FVM Fellowship
               </h1>
@@ -56,7 +56,7 @@ const LandingPage = () => {
           </div>
           <div className="col-span-1">
             <div className="flex flex-col items-center">
-              <Image src="/loading.png" width={200} height={200} />
+              <Image src="/loading.png" width={200} height={200} alt="yo" />
               <h1 className="text-2xl font-bold text-black mt-4">HackFEVM</h1>
               <p className="text-center text-black mt-2 font-semibold">
                 Participant
@@ -65,7 +65,7 @@ const LandingPage = () => {
           </div>
           <div className="col-span-1">
             <div className="flex flex-col items-center">
-              <Image src="/loading.png" width={200} height={200} />
+              <Image src="/loading.png" width={200} height={200} alt="yo" />
               <h1 className="text-2xl font-bold text-black mt-4">ETHNYC</h1>
               <p className="text-center text-black mt-2 font-semibold">
                 Participant
@@ -74,7 +74,7 @@ const LandingPage = () => {
           </div>
           <div className="col-span-1">
             <div className="flex flex-col items-center">
-              <Image src="/loading.png" width={200} height={200} />
+              <Image src="/loading.png" width={200} height={200} alt="yo" />
               <h1 className="text-2xl font-bold text-black mt-4">Devcon VI</h1>
               <p className="text-center text-black mt-2 font-semibold">
                 Attendee
@@ -96,11 +96,11 @@ const LandingPage = () => {
             </p>
             <a
               href="#_"
-              class="relative inline-block px-4 py-2 font-medium group mt-4 w-[200px] mx-auto"
+              className="relative inline-block px-4 py-2 font-medium group mt-4 w-[200px] mx-auto"
             >
-              <span class="absolute rounded-lg inset-0 w-full h-full transition duration-200 ease-out transform translate-x-1 translate-y-1 bg-[#bff22d] border-[2px] border-black group-hover:-translate-x-0 group-hover:-translate-y-0"></span>
-              <span class="absolute rounded-lg inset-0 w-full h-full bg-white border-2 border-black group-hover:bg-[#bff22d]"></span>
-              <span class="relative text-black">Get started</span>
+              <span className="absolute rounded-lg inset-0 w-full h-full transition duration-200 ease-out transform translate-x-1 translate-y-1 bg-[#bff22d] border-[2px] border-black group-hover:-translate-x-0 group-hover:-translate-y-0"></span>
+              <span className="absolute rounded-lg inset-0 w-full h-full bg-white border-2 border-black group-hover:bg-[#bff22d]"></span>
+              <span className="relative text-black">Get started</span>
             </a>
           </div>
         </div>
@@ -119,11 +119,11 @@ const LandingPage = () => {
             </p>
             <a
               href="#_"
-              class="relative inline-block px-4 py-2 font-medium group mt-4 w-[200px] mx-auto"
+              className="relative inline-block px-4 py-2 font-medium group mt-4 w-[200px] mx-auto"
             >
-              <span class="absolute rounded-lg inset-0 w-full h-full transition duration-200 ease-out transform translate-x-1 translate-y-1 bg-[#bff22d] border-[2px] border-black group-hover:-translate-x-0 group-hover:-translate-y-0"></span>
-              <span class="absolute rounded-lg inset-0 w-full h-full bg-white border-2 border-black group-hover:bg-[#bff22d]"></span>
-              <span class="relative text-black">Get started</span>
+              <span className="absolute rounded-lg inset-0 w-full h-full transition duration-200 ease-out transform translate-x-1 translate-y-1 bg-[#bff22d] border-[2px] border-black group-hover:-translate-x-0 group-hover:-translate-y-0"></span>
+              <span className="absolute rounded-lg inset-0 w-full h-full bg-white border-2 border-black group-hover:bg-[#bff22d]"></span>
+              <span className="relative text-black">Get started</span>
             </a>
           </div>
         </div>
