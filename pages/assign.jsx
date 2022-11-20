@@ -1,8 +1,14 @@
-import React, { Fragment, useRef, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useGetDeployedAddresses } from "../hooks/useStorageHooks";
-import { useSoulboundMetadata } from "../hooks/useSoulboundMetadata";
-import { useAccount } from "wagmi";
+import { useTokenURI } from "../hooks/useTokenURI";
+import { useAccount, useProvider, useSigner } from "wagmi";
+import { ethers } from "ethers";
+import toast from "react-hot-toast";
+import { assignSoulboundToken } from "../utils/assign";
+import chainId from "../constants/chainId";
+import { useGetFactories } from "../hooks/useEngineHooks";
+import axios from "axios";
 
 const AssignDialog = ({
   selectedAddress,
@@ -10,9 +16,27 @@ const AssignDialog = ({
   setSelectedCollection,
   collectionAddress,
 }) => {
-  const { metadata, isError, isLoading } =
-    useSoulboundMetadata(collectionAddress);
+  const { factories } = useGetFactories();
+  const { data: signer } = useSigner(chainId);
+  const provider = useProvider(chainId);
+  const { tokenURI, isError, isLoading } = useTokenURI(collectionAddress);
   const { address, isConnected } = useAccount();
+  const [assignAddress, setAssignAddress] = useState("");
+  const [metadata, setMetadata] = useState({});
+
+  useEffect(() => {
+    if (tokenURI) {
+      let ipfsParts = (tokenURI ?? "a/b").replace("ipfs://", "").split("/");
+      let ipfsHash = ipfsParts[0];
+      let ipfsFile = ipfsParts[1];
+      let uri = `https://${ipfsHash}.ipfs.nftstorage.link/${ipfsFile}`;
+
+      axios.get(uri).then((value) => {
+        setMetadata(value.data);
+        toast(value.data);
+      });
+    }
+  }, [tokenURI]);
 
   return (
     <Transition.Root show={selectedAddress != null} as={Fragment}>
@@ -119,14 +143,31 @@ const AssignDialog = ({
                       type="text"
                       className="input input-bordered"
                       onChange={(event) => {
-                        const address = event.target.value;
+                        setAssignAddress(event.target.value);
                       }}
                     />
                   </div>
                   <button
                     type="button"
                     className="ml-5 text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-                    onClick={() => setSelectedCollection(null)}
+                    onClick={async () => {
+                      if (ethers.utils.isAddress(assignAddress)) {
+                        let factoryId = metadata?.properties?.factory;
+                        let factoryIndex = factories.findIndex(
+                          (x) => x.id == factoryId
+                        );
+                        await assignSoulboundToken(
+                          provider,
+                          signer,
+                          collectionAddress,
+                          assignAddress,
+                          factoryIndex
+                        );
+                      } else {
+                        toast.error("Not a valid EVM address");
+                      }
+                      setSelectedCollection(null);
+                    }}
                   >
                     <svg
                       x="0px"
@@ -150,8 +191,25 @@ const AssignDialog = ({
 };
 
 const Card = ({ collectionAddress, setSelectedCollection }) => {
-  const { metadata, isError, isLoading } =
-    useSoulboundMetadata(collectionAddress);
+  const { tokenURI, isError, isLoading, error } =
+    useTokenURI(collectionAddress);
+  const [metadata, setMetadata] = useState({});
+
+  useEffect(() => {
+    toast(tokenURI);
+    if (tokenURI) {
+      let ipfsParts = (tokenURI ?? "a/b").replace("ipfs://", "").split("/");
+      let ipfsHash = ipfsParts[0];
+      let ipfsFile = ipfsParts[1];
+      let uri = `https://${ipfsHash}.ipfs.nftstorage.link/${ipfsFile}`;
+
+      axios.get(uri).then((value) => {
+        setMetadata(value.data);
+        toast(value.data);
+      });
+    }
+  }, [tokenURI]);
+
   return (
     <div
       className="card w-64 bg-base-100 shadow-md cursor-pointer"
@@ -159,6 +217,7 @@ const Card = ({ collectionAddress, setSelectedCollection }) => {
         setSelectedCollection(collectionAddress);
       }}
     >
+      <h1>{JSON.stringify(isError)}</h1>
       <figure className="px-2 pt-2">
         <img
           src={metadata?.image ?? "https://placeimg.com/400/225/grayscale"}
