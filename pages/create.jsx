@@ -1,12 +1,20 @@
 import React, { useState } from "react";
 import { useGetFactories } from "../hooks/useEngineHooks";
 import toast from "react-hot-toast";
+import { useSigner, useProvider } from "wagmi";
+import chainId from "../constants/chainId";
+import { deployCollection } from "../utils/deployCollection";
+import { createDeal } from "../utils/createDeal";
+import { useGetDeployedAddresses } from "../hooks/useStorageHooks";
 
 const create = () => {
+  const { data: signer } = useSigner(chainId);
+  const provider = useProvider(chainId);
   const [files, setFile] = useState([]);
   const [message, setMessage] = useState();
   const [selectedFactoryIndex, setSelectedFactoryIndex] = useState(0);
   const { factories } = useGetFactories();
+  const { addresses, hasData } = useGetDeployedAddresses();
   const handleFile = (e) => {
     setMessage("");
     let file = e.target.files;
@@ -26,6 +34,7 @@ const create = () => {
   };
   return (
     <div>
+      <h1>{hasData ? JSON.stringify(addresses) : "Waiting/error"}</h1>
       <div className="flex justify-center items-center mb-4">
         <h1 className="text-3xl  text-black mt-4">
           ✍️ Create a soulbound token
@@ -38,15 +47,14 @@ const create = () => {
             <label className="label">
               <span className="label-text">Choose a token factory</span>
             </label>
-            <select className="select select-bordered w-full">
+            <select
+              onChange={(event) => {
+                setSelectedFactoryIndex(event.target.selectedIndex);
+              }}
+              className="select select-bordered w-full"
+            >
               {factories.map(({ name, index }) => (
-                <option
-                  onClick={(selected) => {
-                    setSelectedFactoryIndex(index);
-                  }}
-                >
-                  {name}
-                </option>
+                <option>{name}</option>
               ))}
             </select>
           </div>
@@ -78,8 +86,30 @@ const create = () => {
           </div>
           <div className="form-control mt-6">
             <button
-              onClick={() => {
-                toast(selectedFactoryIndex);
+              onClick={async () => {
+                let factoryIndex = selectedFactoryIndex;
+                let tokenName = "TokenName"; // Get from field
+                let description = "Description"; // Get from field
+                let date = "date"; // Get from field
+                let issuerName = "name"; // get from field
+                let image = "image"; // get from image field
+
+                // TODO: Upload data to ipfs
+                // get ipfs hash
+                let ipfsHash = "";
+
+                let dealId = Math.floor(Math.random() * 10_000);
+                await createDeal(provider, signer, dealId, ipfsHash, 1000_000);
+
+                await deployCollection(
+                  provider,
+                  signer,
+                  selectedFactoryIndex,
+                  tokenName,
+                  tokenName, // symbol
+                  dealId,
+                  ipfsHash
+                );
               }}
               className="relative inline-block px-4 py-2 font-medium group mt-4 w-[200px] mx-auto  text-center"
             >
