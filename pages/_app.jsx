@@ -1,8 +1,8 @@
 import "../styles/globals.css";
-import Navbar from "../components/Navbar";
 import { Toaster } from "react-hot-toast";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
+import dynamic from "next/dynamic";
 
 const fvmChain = {
   id: 31415,
@@ -34,9 +34,14 @@ const { chains, provider, webSocketProvider } = configureChains(
 );
 
 const client = createClient({
-  autoConnect: false,
+  autoConnect: true,
   provider,
   webSocketProvider,
+});
+
+// Dynamic import of Navbar to avoid SSR issues
+const Navbar = dynamic(() => import("../components/Navbar"), {
+  ssr: false,
 });
 
 function MyApp({ Component, pageProps }) {

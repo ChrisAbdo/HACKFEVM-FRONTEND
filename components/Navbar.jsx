@@ -8,6 +8,7 @@ import { useGetDeployedAddresses } from "../hooks/useStorageHooks";
 
 const Navbar = () => {
   const { address, isConnected } = useAccount();
+
   // TODO: Wallaby does not support ENS. Need a separate Ethereu provider to useEnsName
   // const { data: ensName } = useEnsName({ address });
   const { disconnect } = useDisconnect({
