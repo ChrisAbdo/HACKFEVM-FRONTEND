@@ -49,7 +49,7 @@ function MyApp({ Component, pageProps }) {
     <div suppressHydrationWarning>
       <WagmiConfig client={client}>
         <div className="bg-gradient-to-r from-[#fdeab1] to-white h-screen">
-          <Navbar />
+          <Navbar suppressHydrationWarning />
           <Component {...pageProps} />
           <Toaster />
         </div>
