@@ -1,14 +1,26 @@
 import React, { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
+import { useGetDeployedAddresses } from "../hooks/useStorageHooks";
+import { useSoulboundMetadata } from "../hooks/useSoulboundMetadata";
+import { useAccount } from "wagmi";
 
-const AssignDialog = ({ open, cancelButtonRef, setOpen }) => {
+const AssignDialog = ({
+  selectedAddress,
+  cancelButtonRef,
+  setSelectedCollection,
+  collectionAddress,
+}) => {
+  const { metadata, isError, isLoading } =
+    useSoulboundMetadata(collectionAddress);
+  const { address, isConnected } = useAccount();
+
   return (
-    <Transition.Root show={open} as={Fragment}>
+    <Transition.Root show={selectedAddress != null} as={Fragment}>
       <Dialog
         as="div"
         className="relative z-10000"
         initialFocus={cancelButtonRef}
-        onClose={setOpen}
+        onClose={setSelectedCollection}
       >
         <Transition.Child
           as={Fragment}
@@ -39,7 +51,10 @@ const AssignDialog = ({ open, cancelButtonRef, setOpen }) => {
                     <div className="h-300 w-300">
                       <div className="w-300 h-300">
                         <img
-                          src="https://placeimg.com/400/225/arch"
+                          src={
+                            metadata?.image ??
+                            "https://placeimg.com/400/225/grayscale"
+                          }
                           alt="SBT"
                           className="object-cover rounded-md w-300 h-300"
                         />
@@ -50,7 +65,7 @@ const AssignDialog = ({ open, cancelButtonRef, setOpen }) => {
                         as="h2"
                         className="text-2xl font-bold leading-6 text-gray-900"
                       >
-                        Dealbreaker
+                        {metadata?.name ?? "Loading..."}
                       </Dialog.Title>
                       <div className="mt-2">
                         <p className="text-sm text-black-500 font-bold">
@@ -59,7 +74,7 @@ const AssignDialog = ({ open, cancelButtonRef, setOpen }) => {
                       </div>
                       <div className="mt-2">
                         <p className="text-sm text-gray-500">
-                          Lorem Ipsum Dolor Sit Amet
+                          {metadata?.description ?? "Loading..."}
                         </p>
                       </div>
                       <div className="mt-2">
@@ -69,7 +84,7 @@ const AssignDialog = ({ open, cancelButtonRef, setOpen }) => {
                       </div>
                       <div className="mt-2">
                         <p className="text-sm text-gray-500">
-                          November 21, 2022
+                          {metadata?.properties?.date ?? "November 20, 2022"}
                         </p>
                       </div>
                       <div className="mt-2">
@@ -78,7 +93,9 @@ const AssignDialog = ({ open, cancelButtonRef, setOpen }) => {
                         </p>
                       </div>
                       <div className="mt-2">
-                        <p className="text-sm text-gray-500">FVM Foundation</p>
+                        <p className="text-sm text-gray-500">
+                          {metadata?.properties?.issuerName ?? address}
+                        </p>
                       </div>
                       <div className="mt-2">
                         <p className="text-sm text-black-500 font-bold">
@@ -87,7 +104,7 @@ const AssignDialog = ({ open, cancelButtonRef, setOpen }) => {
                       </div>
                       <div className="mt-2">
                         <p className="text-sm text-gray-500">
-                          Dealbreaker Factory
+                          {metadata?.properties?.factory}
                         </p>
                       </div>
                     </div>
@@ -98,12 +115,18 @@ const AssignDialog = ({ open, cancelButtonRef, setOpen }) => {
                     <p className="text-md text-black-500">Assign To</p>
                   </div>
                   <div className="form-control grow">
-                    <input type="text" className="input input-bordered" />
+                    <input
+                      type="text"
+                      className="input input-bordered"
+                      onChange={(event) => {
+                        const address = event.target.value;
+                      }}
+                    />
                   </div>
                   <button
                     type="button"
                     className="ml-5 text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-                    onClick={() => setOpen(false)}
+                    onClick={() => setSelectedCollection(null)}
                   >
                     <svg
                       x="0px"
@@ -126,8 +149,34 @@ const AssignDialog = ({ open, cancelButtonRef, setOpen }) => {
   );
 };
 
+const Card = ({ collectionAddress, setSelectedCollection }) => {
+  const { metadata, isError, isLoading } =
+    useSoulboundMetadata(collectionAddress);
+  return (
+    <div
+      className="card w-64 bg-base-100 shadow-md cursor-pointer"
+      onClick={() => {
+        setSelectedCollection(collectionAddress);
+      }}
+    >
+      <figure className="px-2 pt-2">
+        <img
+          src={metadata?.image ?? "https://placeimg.com/400/225/grayscale"}
+          alt="SBT"
+          className="rounded-md"
+        />
+      </figure>
+      <div className="card-body items-center text-center p-6">
+        <h2 className="card-title">{metadata?.name ?? "Loading..."}</h2>
+      </div>
+    </div>
+  );
+};
+
 const assign = () => {
-  const [open, setOpen] = useState(false);
+  const { address, isConnected } = useAccount();
+  const { addresses, hasData } = useGetDeployedAddresses();
+  const [selectedAddress, setSelectedCollection] = useState(null);
   const cancelButtonRef = useRef(null);
 
   return (
@@ -156,9 +205,9 @@ const assign = () => {
         </label>
       </div>
       <AssignDialog
-        open={open}
+        selectedAddress={selectedAddress}
         cancelButtonRef={cancelButtonRef}
-        setOpen={setOpen}
+        setSelectedCollection={setSelectedCollection}
       />
 
       <div className="flex justify-center items-center">
@@ -174,23 +223,20 @@ const assign = () => {
             <div className="col-span-5">
               <div className="flex justify-center items-center bg-white px-2">
                 <div className="grid grid-cols-3 p-4">
-                  <div
-                    className="card w-64 bg-base-100 shadow-md cursor-pointer"
-                    onClick={() => {
-                      setOpen(true);
-                    }}
-                  >
-                    <figure className="px-2 pt-2">
-                      <img
-                        src="https://placeimg.com/400/225/arch"
-                        alt="SBT"
-                        className="rounded-md"
+                  {!isConnected ? (
+                    <h2>Connect to see your tokens!</h2>
+                  ) : !hasData ? (
+                    <h2>Loading...</h2>
+                  ) : addresses.length == 0 ? (
+                    <h2>Create a token first!</h2>
+                  ) : (
+                    addresses.map((address) => (
+                      <Card
+                        collectionAddress={address}
+                        setSelectedCollection={setSelectedCollection}
                       />
-                    </figure>
-                    <div className="card-body items-center text-center p-6">
-                      <h2 className="card-title">Dealbreaker</h2>
-                    </div>
-                  </div>
+                    ))
+                  )}
                 </div>
               </div>
             </div>
