@@ -59,7 +59,7 @@ export function useWasMintConfirmed(receiver, collection) {
 }
 
 // Returns the mints you've been assigned (claimed & unclaimed)
-export function useGetMintsByReceiver(receiver, collection) {
+export function useGetMintsByReceiver() {
   const { address, isConnected } = useAccount();
 
   const { data, isError, isLoading } = useContractRead({

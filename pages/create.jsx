@@ -119,6 +119,7 @@ const create = () => {
                     factory: factories[selectedFactoryIndex].id,
                   },
                 };
+                toast("Storing data on IPFS...");
                 const metadata = await client.store(ipfsMetadata);
 
                 // little hacky but easiest way to construct the ipfs hash which should be something like:
@@ -126,8 +127,19 @@ const create = () => {
                 const ipfsHash = metadata.ipnft + "/metadata.json";
 
                 let dealId = Math.floor(Math.random() * 10_000);
-                await createDeal(provider, signer, dealId, ipfsHash, 1000_000);
 
+                if (selectedFactoryIndex == 1) {
+                  toast("Creating a storage deal with filecoin...");
+                  await createDeal(
+                    provider,
+                    signer,
+                    dealId,
+                    ipfsHash,
+                    1000_000
+                  );
+                }
+
+                toast("Deploying collection...");
                 await deployCollection(
                   provider,
                   signer,
@@ -137,6 +149,7 @@ const create = () => {
                   dealId,
                   ipfsHash
                 );
+                toast("Collection deployed!");
               }}
               className="relative inline-block px-4 py-2 font-medium group mt-4 w-[200px] mx-auto  text-center"
             >
