@@ -15,6 +15,13 @@ import { shortAddress } from "../utils/shortAddress";
 import chainId from "../constants/chainId";
 import { useGetFactories } from "../hooks/useEngineHooks";
 import { useSoulboundMetadata } from "../hooks/useSoulboundMetadata";
+import { claimSoulboundToken } from "../utils/claimSoulboundToken";
+
+const Mode = {
+  OwnedCollections: 0,
+  IssuedTokens: 1,
+  ReceivedTokens: 2,
+};
 
 const AssignDialog = ({
   selectedAddress,
@@ -197,7 +204,6 @@ const AssignedDialog = ({
   const { data: signer } = useSigner(chainId);
   const provider = useProvider(chainId);
   const { address, isConnected } = useAccount();
-  const [assignAddress, setAssignAddress] = useState("");
 
   const { metadata, isLoading, isError } =
     useSoulboundMetadata(selectedAddress);
@@ -307,27 +313,11 @@ const AssignedDialog = ({
                     type="button"
                     className="ml-5 text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
                     onClick={async () => {
-                      if (ethers.utils.isAddress(assignAddress)) {
-                        let factoryId = metadata?.properties?.factory;
-                        // let factoryIndex = factories.findIndex(
-                        //   (x) => x.id == factoryId
-                        // );
-                        let factoryIndex = 0; // TODO: Once metadata works, bring back above
-                        console.info(selectedAddress, assignAddress);
-                        try {
-                          await assignSoulboundToken(
-                            provider,
-                            signer,
-                            selectedAddress,
-                            assignAddress,
-                            factoryIndex
-                          );
-                        } catch (e) {
-                          toast.error("Failed to assign token");
-                        }
-                      } else {
-                        toast.error("Not a valid EVM address");
-                      }
+                      await claimSoulboundToken(
+                        provider,
+                        signer,
+                        selectedAddress
+                      );
                       setSelectedCollection(null);
                     }}
                   >
@@ -458,7 +448,7 @@ const assign = () => {
   const { data: receivedMints, hasData: hasReceivedMintsData } =
     useGetMintsByReceiver();
   const [selectedAddress, setSelectedCollection] = useState(null);
-  const [mode, setMode] = useState(0);
+  const [mode, setMode] = useState(Mode.OwnedCollections);
   const cancelButtonRef = useRef(null);
 
   return (
@@ -486,19 +476,19 @@ const assign = () => {
           </label>
         </label>
       </div>
-      {mode == 0 ? (
+      {mode == Mode.OwnedCollections ? (
         <AssignDialog
           selectedAddress={selectedAddress}
           cancelButtonRef={cancelButtonRef}
           setSelectedCollection={setSelectedCollection}
         />
-      ) : mode == 1 ? null : (
+      ) : mode == Mode.ReceivedTokens ? (
         <AssignedDialog
           selectedAddress={selectedAddress}
           cancelButtonRef={cancelButtonRef}
           setSelectedCollection={setSelectedCollection}
         />
-      )}
+      ) : null}
       <div className="flex justify-center items-center">
         <div className="card md:card-side self-center bg-white w-8/12 border-[2px] border-[#f2dbd0] rounded-2xl p-4">
           <div className="grid grid-cols-6 divide-x">

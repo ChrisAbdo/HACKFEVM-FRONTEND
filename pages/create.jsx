@@ -57,7 +57,7 @@ const create = () => {
               className="select select-bordered w-full"
             >
               {factories.map(({ name, index }) => (
-                <option>{name}</option>
+                <option id={index}>{name}</option>
               ))}
             </select>
           </div>
