@@ -66,19 +66,19 @@ const create = () => {
             <label className="label">
               <span className="label-text">Token Name</span>
             </label>
-            <input type="text" className="input input-bordered" />
+            <input id="tokenName" type="text" className="input input-bordered" />
           </div>
           <div className="form-control">
             <label className="label">
               <span className="label-text">Description</span>
             </label>
-            <input type="text" className="input input-bordered" />
+            <input id="description" type="text" className="input input-bordered" />
           </div>
           <div className="form-control">
             <label className="label">
               <span className="label-text">Date</span>
             </label>
-            <input type="text" className="input input-bordered" />
+            <input id="date" type="text" className="input input-bordered" />
           </div>
           <div className="form-control">
             <label className="label">
@@ -86,21 +86,34 @@ const create = () => {
                 Issuer name (you or organization)
               </span>
             </label>
-            <input type="text" className="input input-bordered" />
+            <input id="issuerName" type="text" className="input input-bordered" />
           </div>
           <div className="form-control mt-6">
             <button
               onClick={async () => {
-                let factoryIndex = selectedFactoryIndex;
-                let tokenName = "TokenName"; // Get from field
-                let description = "Description"; // Get from field
-                let date = "date"; // Get from field
-                let issuerName = "name"; // get from field
-                let image = "image"; // get from image field
+                const tokenName = document.getElementById("tokenName").value
+                const description = document.getElementById("description").value
+                const date = document.getElementById("date").value
+                const issuerName = document.getElementById("issuerName").value
 
-                // TODO: Upload data to ipfs
-                // get ipfs hash
-                let ipfsHash = "";
+                // upload to IPFS
+                const ipfsMetadata = {
+                  name: tokenName,
+                  description: description,
+                  image: files[0],
+                  properties: {
+                    "issuerName": issuerName,
+                    "date": date,
+                    "factory": factories[selectedFactoryIndex].id
+                  }
+                }
+                const metadata = await client.store(ipfsMetadata)
+                console.log(metadata)
+                
+                // little hacky but easiest way to construct the ipfs hash which should be something like:
+                // bafyreihkw75u3ftad3xmgqfektvbhp65cnbrv25pwb6tr3tzuihffu66jy/metadata.json
+                const ipfsHash = metadata.ipnft + "/metadata.json"
+                console.log(ipfsHash)
 
                 let dealId = Math.floor(Math.random() * 10_000);
                 await createDeal(provider, signer, dealId, ipfsHash, 1000_000);
@@ -170,14 +183,6 @@ const create = () => {
                       <div
                         onClick={async () => {
                           removeImage(file.name);
-
-                          const metadata = await client.store({
-                            name: 'xyz',
-                            description: 'xyz',
-                            image: files[0]
-                          })
-
-                          console.log(metadata.url)
                         }}
                         className="h-6 w-6 bg-red-400 flex items-center cursor-pointer justify-center rounded-sm"
                       >
