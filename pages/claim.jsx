@@ -45,7 +45,7 @@ const AssignDialog = ({
         as="div"
         className="relative z-10000"
         initialFocus={cancelButtonRef}
-        onClose={setSelectedCollection}
+        onClose={() => setSelectedCollection(null)}
       >
         <Transition.Child
           as={Fragment}
@@ -242,7 +242,7 @@ const NFTPreviewDialog = ({
         as="div"
         className="relative z-10000"
         initialFocus={cancelButtonRef}
-        onClose={setSelectedCollection}
+        onClose={() => setSelectedCollection(null)}
       >
         <Transition.Child
           as={Fragment}
@@ -366,7 +366,7 @@ const NFTPreviewDialogWithClaim = ({
         as="div"
         className="relative z-10000"
         initialFocus={cancelButtonRef}
-        onClose={setSelectedCollection}
+        onClose={() => setSelectedCollection(null)}
       >
         <Transition.Child
           as={Fragment}

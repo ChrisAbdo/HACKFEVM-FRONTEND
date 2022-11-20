@@ -29,10 +29,13 @@ Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&ut
 ### TODO
 
 - Creation Date should enforce a date - date picker maybe?
-- Available underline
 - File uploaded should replace the gray square
 - Assign NFT previews - Images should be the same size, or at least scaled to the same width or height
 - Assign page's NFTPreviewDialog's button should be a "Exit" button. Maybe a red X?
+
+### DONE
+
+- Available underline
 - Clicking outside of the Assign dialog no longer closes
 
 ### Presentation Notes

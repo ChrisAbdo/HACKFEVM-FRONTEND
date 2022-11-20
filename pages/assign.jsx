@@ -45,7 +45,7 @@ const AssignDialog = ({
         as="div"
         className="relative z-10000"
         initialFocus={cancelButtonRef}
-        onClose={setSelectedCollection}
+        onClose={() => setSelectedCollection(null)}
       >
         <Transition.Child
           as={Fragment}
@@ -242,7 +242,7 @@ const NFTPreviewDialog = ({
         as="div"
         className="relative z-10000"
         initialFocus={cancelButtonRef}
-        onClose={setSelectedCollection}
+        onClose={() => setSelectedCollection(null)}
       >
         <Transition.Child
           as={Fragment}
@@ -337,7 +337,7 @@ const NFTPreviewDialog = ({
                     </div>
                   </div>
                 </div>
-                <div className="bg-gray-50 px-4 py-3 flex justify-between items-center w-100">
+                {/* <div className="bg-gray-50 px-4 py-3 flex justify-between items-center w-100">
                   <div className="pr-5">
                     <p className="text-md text-black-500"></p>
                   </div>
@@ -359,7 +359,7 @@ const NFTPreviewDialog = ({
 
                     <span className="sr-only">Icon description</span>
                   </button>
-                </div>
+                </div> */}
               </Dialog.Panel>
             </Transition.Child>
           </div>
