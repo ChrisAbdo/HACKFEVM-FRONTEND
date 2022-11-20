@@ -1,25 +1,27 @@
-import Image from 'next/image';
-import { useState, useEffect } from 'react';
-import { useAccount, useConnect, useEnsName, useDisconnect } from 'wagmi';
-import { InjectedConnector } from 'wagmi/connectors/injected';
-import toast, { Toaster } from 'react-hot-toast';
-import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
+import Image from "next/image";
+import { useState, useEffect } from "react";
+import { useAccount, useConnect, useEnsName, useDisconnect } from "wagmi";
+import { InjectedConnector } from "wagmi/connectors/injected";
+import toast, { Toaster } from "react-hot-toast";
+import { MetaMaskConnector } from "wagmi/connectors/metaMask";
+import { useGetDeployedAddresses } from "../hooks/useStorageHooks";
 
 const Navbar = () => {
   const { address, isConnected } = useAccount();
-  const { data: ensName } = useEnsName({ address });
+  // TODO: Wallaby does not support ENS. Need a separate Ethereu provider to useEnsName
+  // const { data: ensName } = useEnsName({ address });
   const { disconnect } = useDisconnect({
     onSuccess() {
-      toast('Account disconnected!', {
+      toast("Account disconnected!", {
         style: {
-          border: '2px solid #000',
+          border: "2px solid #000",
         },
       });
     },
     onError() {
-      toast.error('Failed to disconnect account!', {
+      toast.error("Failed to disconnect account!", {
         style: {
-          border: '2px solid #000',
+          border: "2px solid #000",
         },
       });
     },
@@ -28,23 +30,28 @@ const Navbar = () => {
     chainId: 31415,
     connector: new InjectedConnector(),
     onSuccess() {
-      toast.success('Account connected!', {
+      toast.success("Account connected!", {
         style: {
-          border: '2px solid #000',
+          border: "2px solid #000",
         },
       });
     },
     onError() {
-      toast.error('Error connecting account!', {
+      toast.error("Error connecting account!", {
         style: {
-          border: '2px solid #000',
+          border: "2px solid #000",
         },
       });
     },
   });
 
+  const { data, isLoading, isError } = useGetDeployedAddresses();
+
   return (
     <div id="navbar" className="navbar sticky top-0 z-50 ">
+      <h1>
+        {isError ? "Error" : isLoading ? "Loading" : JSON.stringify(data)}
+      </h1>
       <div className="navbar-start">
         <div className="dropdown">
           <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -104,11 +111,10 @@ const Navbar = () => {
           height={50}
           alt="yo"
           onClick={() => {
-            window.location.href = '/';
+            window.location.href = "/";
           }}
         />
       </div>
-
       <div className="navbar-end">
         <div className="flex space-x-8 mr-8 text-lg">
           <a
@@ -118,8 +124,7 @@ const Navbar = () => {
               before:bottom-0 before:left-0 before:bg-black
               before:hover:scale-x-100 before:scale-x-0 before:origin-top-left
               before:transition before:ease-in-out before:duration-300
-         
-                active:after:content-[''] active:after:absolute active:after:block active:after:w-full active:after:h-[1px]"
+              active:after:content-[''] active:after:absolute active:after:block active:after:w-full active:after:h-[1px]"
           >
             Create
           </a>
@@ -156,7 +161,7 @@ const Navbar = () => {
           <span className="absolute rounded-lg inset-0 w-full h-full bg-white border-2 border-black group-hover:bg-[#bff22d]"></span>
           {address ? (
             <span className="relative text-black">
-              {address.slice(0, 6) + '...' + address.slice(-4)}
+              {address.slice(0, 6) + "..." + address.slice(-4)}
             </span>
           ) : (
             <span className="relative text-black">Connect Wallet</span>

@@ -1,8 +1,12 @@
 import React, { useState } from "react";
+import { useGetFactories } from "../hooks/useEngineHooks";
+import toast from "react-hot-toast";
 
 const create = () => {
   const [files, setFile] = useState([]);
   const [message, setMessage] = useState();
+  const [selectedFactoryIndex, setSelectedFactoryIndex] = useState(0);
+  const { factories } = useGetFactories();
   const handleFile = (e) => {
     setMessage("");
     let file = e.target.files;
@@ -35,15 +39,15 @@ const create = () => {
               <span className="label-text">Choose a token factory</span>
             </label>
             <select className="select select-bordered w-full">
-              <option disabled selected>
-                Token Factory
-              </option>
-              <option>Token Factory 1</option>
-              <option>Token Factory 2</option>
-              <option>Token Factory 3</option>
-              <option>Token Factory 4</option>
-              <option>Token Factory 5</option>
-              <option>Token Factory 6</option>
+              {factories.map(({ name, index }) => (
+                <option
+                  onClick={(selected) => {
+                    setSelectedFactoryIndex(index);
+                  }}
+                >
+                  {name}
+                </option>
+              ))}
             </select>
           </div>
           <div className="form-control">
@@ -73,8 +77,10 @@ const create = () => {
             <input type="text" className="input input-bordered" />
           </div>
           <div className="form-control mt-6">
-            <a
-              href="#_"
+            <button
+              onClick={() => {
+                toast(selectedFactoryIndex);
+              }}
               className="relative inline-block px-4 py-2 font-medium group mt-4 w-[200px] mx-auto  text-center"
             >
               <span className="absolute rounded-lg inset-0 w-full h-full transition duration-200 ease-out transform translate-x-1 translate-y-1 bg-[#bff22d] border-[2px] border-black group-hover:-translate-x-0 group-hover:-translate-y-0"></span>
@@ -82,7 +88,7 @@ const create = () => {
               <span className="relative text-black text-center">
                 Create token
               </span>
-            </a>
+            </button>
           </div>
         </div>
         <div className="card-body justify-center">

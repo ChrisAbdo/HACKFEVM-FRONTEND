@@ -1,23 +1,23 @@
-import '../styles/globals.css';
-import Navbar from '../components/Navbar';
-import { Toaster } from 'react-hot-toast';
-import { configureChains, createClient, WagmiConfig } from 'wagmi';
-import { jsonRpcProvider } from 'wagmi/providers/jsonRpc';
+import "../styles/globals.css";
+import Navbar from "../components/Navbar";
+import { Toaster } from "react-hot-toast";
+import { configureChains, createClient, WagmiConfig } from "wagmi";
+import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 
 const fvmChain = {
   id: 31415,
-  name: 'Filecoin — Wallaby testnet',
-  network: 'wallaby',
+  name: "Filecoin — Wallaby testnet",
+  network: "wallaby",
   nativeCurrency: {
     decimals: 18,
-    name: 'Testnet Filecoin',
-    symbol: 'tFil',
+    name: "Testnet Filecoin",
+    symbol: "tFil",
   },
   rpcUrls: {
-    default: 'https://wallaby.node.glif.io/rpc/v0',
+    default: "https://wallaby.node.glif.io/rpc/v0",
   },
   blockExplorers: {
-    default: { name: 'Glif', url: 'https://explorer.glif.io/wallaby' },
+    default: { name: "Glif", url: "https://explorer.glif.io/wallaby" },
   },
   testnet: true,
 };
@@ -34,7 +34,7 @@ const { chains, provider, webSocketProvider } = configureChains(
 );
 
 const client = createClient({
-  autoConnect: true,
+  autoConnect: false,
   provider,
   webSocketProvider,
 });

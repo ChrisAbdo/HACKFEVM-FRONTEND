@@ -1,5 +1,5 @@
-import React, { Fragment, useRef, useState } from 'react';
-import { Dialog, Transition } from '@headlessui/react';
+import React, { Fragment, useRef, useState } from "react";
+import { Dialog, Transition } from "@headlessui/react";
 
 const AssignDialog = ({ open, cancelButtonRef, setOpen }) => {
   return (
@@ -114,7 +114,7 @@ const AssignDialog = ({ open, cancelButtonRef, setOpen }) => {
                       <path d="M503.138,3.233c-3.31-3.288-8.304-4.162-12.532-2.19L12.003,223.649c-3.772,1.755-6.25,5.469-6.424,9.625    c-0.174,4.159,1.984,8.066,5.598,10.13l153.15,87.515l98.667,175.405c1.978,3.516,5.69,5.675,9.701,5.675    c0.157,0,0.315-0.007,0.478-0.011c4.185-0.181,7.918-2.697,9.652-6.518L505.432,15.739C507.361,11.5,506.443,6.512,503.138,3.233z     M40.91,234.758L441.264,48.544L170.805,308.985L40.91,234.758z M271.641,476.294l-85.197-151.463L460.397,61.026L271.641,476.294    z" />
                     </svg>
 
-                    <span class="sr-only">Icon description</span>
+                    <span className="sr-only">Icon description</span>
                   </button>
                 </div>
               </Dialog.Panel>
