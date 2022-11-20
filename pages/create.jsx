@@ -10,6 +10,14 @@ import { NFTStorage, File } from "nft.storage";
 
 const create = () => {
   const { data: signer } = useSigner(chainId);
+  const [tokenNameValue, setTokenName] = useState(
+    "HackFEVM Successful Submission"
+  );
+  const [descriptionValue, setDescription] = useState(
+    "Congratulations on submitting for the HackFEVM 2022 hackathon!"
+  );
+  const [dateValue, setDate] = useState("November 20, 2022");
+  const [issuerNameValue, setIssuerName] = useState("EthGlobal");
   const provider = useProvider(chainId);
   const API_TOKEN =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDA0MzVEOTI2Y2UzOTZkZDE5NURkZTEwMzMyODBBQUY3MTA4NTAxMUMiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY2ODkxNDc2NTMxNCwibmFtZSI6ImhhY2thdGhvbiJ9.5eYvOa09fK59JhK-y4-M-aY8miNnCL4B0bSfFbejd-w";
@@ -48,6 +56,18 @@ const create = () => {
   const removeImage = (i) => {
     setFile(files.filter((x) => x.name !== i));
   };
+  const handleTokenValueChange = (event) => {
+    setTokenName(event.target.value);
+  };
+  const handleDescriptionValueChange = (event) => {
+    setDescription(event.target.value);
+  };
+  const handleDateValueChange = (event) => {
+    setDate(event.target.value);
+  };
+  const handleIssuerValueChange = (event) => {
+    setIssuerName(event.target.value);
+  };
   return (
     <div>
       <div className="flex justify-center items-center mb-4">
@@ -81,7 +101,8 @@ const create = () => {
               id="tokenName"
               type="text"
               className="input input-bordered"
-              value="HackFEVM Successful Submission"
+              value={tokenNameValue}
+              onChange={handleTokenValueChange}
             />
           </div>
           <div className="form-control">
@@ -92,7 +113,8 @@ const create = () => {
               id="description"
               type="text"
               className="input input-bordered"
-              value="Congratulations on submitting for the HackFEVM 2022 hackathon!"
+              value={descriptionValue}
+              onChange={handleDescriptionValueChange}
             />
           </div>
           <div className="form-control">
@@ -103,7 +125,8 @@ const create = () => {
               id="date"
               type="text"
               className="input input-bordered"
-              value="November 20, 2022"
+              value={dateValue}
+              onChange={handleDateValueChange}
             />
           </div>
           <div className="form-control">
@@ -116,26 +139,27 @@ const create = () => {
               id="issuerName"
               type="text"
               className="input input-bordered"
-              value="EthGlobal"
+              value={issuerNameValue}
+              onChange={handleIssuerValueChange}
             />
           </div>
           <div className="form-control mt-6">
             <button
               onClick={async () => {
-                const tokenName = document.getElementById("tokenName").value;
-                const description =
-                  document.getElementById("description").value;
-                const date = document.getElementById("date").value;
-                const issuerName = document.getElementById("issuerName").value;
+                // const tokenName = document.getElementById("tokenName").value;
+                // const description =
+                //   document.getElementById("description").value;
+                // const date = document.getElementById("date").value;
+                // const issuerName = document.getElementById("issuerName").value;
 
                 // upload to IPFS
                 const ipfsMetadata = {
-                  name: tokenName,
-                  description: description,
+                  name: tokenNameValue,
+                  description: descriptionValue,
                   image: files[0],
                   properties: {
-                    issuerName: issuerName,
-                    date: date,
+                    issuerName: issuerNameValue,
+                    date: dateValue,
                     factory: factories[selectedFactoryIndex].id,
                   },
                 };
@@ -164,8 +188,8 @@ const create = () => {
                   provider,
                   signer,
                   selectedFactoryIndex,
-                  tokenName,
-                  tokenName, // symbol
+                  tokenNameValue,
+                  tokenNameValue, // symbol
                   dealId,
                   ipfsHash
                 );
