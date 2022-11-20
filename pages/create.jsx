@@ -120,6 +120,7 @@ const create = () => {
                   },
                 };
                 const metadata = await client.store(ipfsMetadata);
+                toast("Data stored to IPFS!");
 
                 // little hacky but easiest way to construct the ipfs hash which should be something like:
                 // bafyreihkw75u3ftad3xmgqfektvbhp65cnbrv25pwb6tr3tzuihffu66jy/metadata.json
@@ -127,6 +128,7 @@ const create = () => {
 
                 let dealId = Math.floor(Math.random() * 10_000);
                 await createDeal(provider, signer, dealId, ipfsHash, 1000_000);
+                toast("Filecoin deal created");
 
                 await deployCollection(
                   provider,
@@ -137,6 +139,7 @@ const create = () => {
                   dealId,
                   ipfsHash
                 );
+                toast("Soulbound Collection deployed");
               }}
               className="relative inline-block px-4 py-2 font-medium group mt-4 w-[200px] mx-auto  text-center"
             >
