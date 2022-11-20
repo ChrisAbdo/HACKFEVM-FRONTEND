@@ -1,6 +1,5 @@
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { useGetDeployedAddresses } from "../hooks/useStorageHooks";
 import {
   useGetDeployedAddresses,
   useGetMintsByIssuer,
@@ -15,6 +14,7 @@ import { assignSoulboundToken } from "../utils/assignSoulboundToken";
 import { shortAddress } from "../utils/shortAddress";
 import chainId from "../constants/chainId";
 import { useGetFactories } from "../hooks/useEngineHooks";
+import { useSoulboundMetadata } from "../hooks/useSoulboundMetadata";
 
 const AssignDialog = ({
   selectedAddress,
@@ -28,7 +28,7 @@ const AssignDialog = ({
   const [assignAddress, setAssignAddress] = useState("");
 
   const { metadata, isLoading, isError } =
-    useSoulboundMetadata(collectionAddress);
+    useSoulboundMetadata(selectedAddress);
 
   return (
     <Transition.Root show={selectedAddress != null} as={Fragment}>
@@ -200,7 +200,7 @@ const AssignedDialog = ({
   const [assignAddress, setAssignAddress] = useState("");
 
   const { metadata, isLoading, isError } =
-    useSoulboundMetadata(collectionAddress);
+    useSoulboundMetadata(selectedAddress);
 
   return (
     <Transition.Root show={selectedAddress != null} as={Fragment}>
