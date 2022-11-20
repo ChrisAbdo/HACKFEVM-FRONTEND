@@ -1,9 +1,7 @@
 import Image from "next/image";
-import { useState, useEffect } from "react";
 import { useAccount, useConnect, useEnsName, useDisconnect } from "wagmi";
 import { InjectedConnector } from "wagmi/connectors/injected";
-import toast, { Toaster } from "react-hot-toast";
-import { MetaMaskConnector } from "wagmi/connectors/metaMask";
+import toast from "react-hot-toast";
 import { useGetDeployedAddresses } from "../hooks/useStorageHooks";
 
 const Navbar = () => {
@@ -139,7 +137,7 @@ const Navbar = () => {
             Assign
           </a>
           <a
-            href="/"
+            href="/claim"
             className="hidden md:block relative before:content-[''] before:absolute before:block before:w-full before:h-[1px] 
               before:bottom-0 before:left-0 before:bg-black
               before:hover:scale-x-100 before:scale-x-0 before:origin-top-left
