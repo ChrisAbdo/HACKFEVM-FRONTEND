@@ -436,7 +436,9 @@ const assign = () => {
   const [selectedAddress, setSelectedCollection] = useState(null);
   const [mode, setMode] = useState(Mode.OwnedCollections);
   const cancelButtonRef = useRef(null);
-
+  const availableClass =
+    mode === Mode.OwnedCollections ? "link" : "link link-hover";
+  const issuedClass = mode === Mode.Issued ? "link" : "link link-hover";
   return (
     <div>
       <div className="flex justify-center items-center mb-4">
@@ -482,7 +484,7 @@ const assign = () => {
               <ul className="menu bg-base-100 w-56 p-2 rounded-box">
                 <li
                   onClick={() => setMode(Mode.OwnedCollections)}
-                  className="link"
+                  className={availableClass}
                 >
                   Available to assign
                 </li>
