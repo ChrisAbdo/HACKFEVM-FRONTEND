@@ -6,10 +6,14 @@ import chainId from "../constants/chainId";
 import { deployCollection } from "../utils/deployCollection";
 import { createDeal } from "../utils/createDeal";
 import { useGetDeployedAddresses } from "../hooks/useStorageHooks";
+import { NFTStorage, File } from 'nft.storage'
 
 const create = () => {
   const { data: signer } = useSigner(chainId);
   const provider = useProvider(chainId);
+  const API_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDA0MzVEOTI2Y2UzOTZkZDE5NURkZTEwMzMyODBBQUY3MTA4NTAxMUMiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY2ODkxNDc2NTMxNCwibmFtZSI6ImhhY2thdGhvbiJ9.5eYvOa09fK59JhK-y4-M-aY8miNnCL4B0bSfFbejd-w"
+  const client = new NFTStorage({ token: API_TOKEN})
+
   const [files, setFile] = useState([]);
   const [message, setMessage] = useState();
   const [selectedFactoryIndex, setSelectedFactoryIndex] = useState(0);
@@ -164,8 +168,16 @@ const create = () => {
                         <span className="truncate w-44">{file.name}</span>
                       </div>
                       <div
-                        onClick={() => {
+                        onClick={async () => {
                           removeImage(file.name);
+
+                          const metadata = await client.store({
+                            name: 'xyz',
+                            description: 'xyz',
+                            image: files[0]
+                          })
+
+                          console.log(metadata.url)
                         }}
                         className="h-6 w-6 bg-red-400 flex items-center cursor-pointer justify-center rounded-sm"
                       >
