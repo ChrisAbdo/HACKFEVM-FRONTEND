@@ -70,7 +70,7 @@ const AssignDialog = ({
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-xl max-w-2xl">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left  transition-all sm:my-8 sm:w-full sm:max-w-xl max-w-2xl">
                 <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                   <div className="flex-shrink-0 grid grid-cols-3">
                     <div className="h-300 w-300">
@@ -267,7 +267,7 @@ const NFTPreviewDialog = ({
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-xl max-w-2xl">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left transition-all sm:my-8 sm:w-full sm:max-w-xl max-w-2xl">
                 <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                   <div className="flex-shrink-0 grid grid-cols-3">
                     <div className="h-300 w-300">
@@ -391,7 +391,7 @@ const NFTPreviewDialogWithClaim = ({
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-xl max-w-2xl">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left  transition-all sm:my-8 sm:w-full sm:max-w-xl max-w-2xl">
                 <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                   <div className="flex-shrink-0 grid grid-cols-3">
                     <div className="h-300 w-300">
@@ -503,7 +503,7 @@ const IssuedCard = ({ collectionAddress, receiver, setSelectedCollection }) => {
 
   return (
     <div
-      className="card w-64 bg-base-100 shadow-md cursor-pointer"
+      className="card w-64 bg-base-100 cursor-pointer"
       onClick={() => {
         setSelectedCollection(collectionAddress);
       }}
@@ -590,11 +590,12 @@ const assign = () => {
           setSelectedCollection={setSelectedCollection}
         />
       ) : null}
+
       <div className="flex justify-center items-center">
-        <div className="card md:card-side self-center bg-white w-8/12 border-[2px] border-[#f2dbd0] rounded-2xl p-4">
+        <div className="card md:card-side self-center bg-white w-8/10 border-[2px] border-[#f2dbd0] rounded-2xl p-4  mr-8 ml-8">
           <div className="grid grid-cols-6 divide-x">
             <div className="rounded-2xl">
-              <ul className="menu bg-base-100 w-56 p-2 rounded-box">
+              <ul className="menu bg-base-100 w-56 p-2 rounded-box text-xl font-semi">
                 <li onClick={() => setMode(Mode.MySbts)} className={mySbtClass}>
                   My SBTs
                 </li>
@@ -607,8 +608,8 @@ const assign = () => {
               </ul>
             </div>
             <div className="col-span-5">
-              <div className="flex justify-center items-center bg-white px-2">
-                <div className="grid grid-cols-3 p-4">
+              <div className="flex justify-center items-center bg-white px-2 min-h-1/2">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {!isConnected ? (
                     <h2>Connect to see your tokens!</h2>
                   ) : mode == Mode.MySbts ? (
