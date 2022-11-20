@@ -1,18 +1,19 @@
-import SoulboundERC721ABI from "../constants/abi/SoulboundERC721.json";
+import AddressOracleABI from "../constants/abi/AddressOracle.json";
 import chainId from "../constants/chainId";
 import { ethers } from "ethers";
 import Contracts from "../constants/contracts";
 import { getMaxPriorityFeePerGas } from "./getMaxPriorityFeePerGas";
 
-export async function claimSoulboundToken(provider, signer, collectionAddress) {
+export async function addToAddressOracle(provider, signer, address) {
   let maxPriorityFee = await getMaxPriorityFeePerGas(provider);
 
   const contract = new ethers.Contract(
-    collectionAddress,
-    SoulboundERC721ABI.abi,
+    Contracts.AddressOracleABI,
+    AddressOracleABI.abi,
     signer
   );
-  await contract.claim({
+
+  await contract.setF0Address(address, "t01109", {
     gasLimit: 1000000000,
     maxPriorityFeePerGas: maxPriorityFee?.toString(),
   });

@@ -12,6 +12,8 @@ import { ethers } from "ethers";
 import toast from "react-hot-toast";
 import { assignSoulboundToken } from "../utils/assignSoulboundToken";
 import { shortAddress } from "../utils/shortAddress";
+import { createDeal } from "../utils/createDeal";
+import { addToAddressOracle } from "../utils/addToAddressOracle";
 import chainId from "../constants/chainId";
 import { useGetFactories } from "../hooks/useEngineHooks";
 import { useSoulboundMetadata } from "../hooks/useSoulboundMetadata";
@@ -128,7 +130,11 @@ const AssignDialog = ({
                       </div>
                       <div className="mt-2">
                         <p className="text-sm text-gray-500">
-                          {metadata?.properties?.factory}
+                          {metadata?.properties?.factory != null
+                            ? factories.find(
+                                (x) => x.id == metadata.properties.factory
+                              ).name ?? ""
+                            : ""}
                         </p>
                       </div>
                     </div>
@@ -153,19 +159,38 @@ const AssignDialog = ({
                     onClick={async () => {
                       if (ethers.utils.isAddress(assignAddress)) {
                         let factoryId = metadata?.properties?.factory;
-                        // let factoryIndex = factories.findIndex(
-                        //   (x) => x.id == factoryId
-                        // );
-                        let factoryIndex = 0; // TODO: Once metadata works, bring back above
-                        console.info(selectedAddress, assignAddress);
+                        let factoryIndex = Math.min(
+                          factories.findIndex((x) => x.id == factoryId),
+                          0
+                        );
+
+                        let dealId = Math.floor(Math.random() * 10_000);
+
+                        // Demerit hardcode
+                        if (factoryIndex == 2) {
+                          toast("[MOCK]: Adding receiver to address oracle...");
+                          await addToAddressOracle(
+                            provider,
+                            signer,
+                            assignAddress
+                          );
+                          toast(
+                            "[MOCK]: Creating deal the that deserves demerit..."
+                          );
+                          await createDeal(provider, signer, dealId, "", 0);
+                        }
+
                         try {
+                          toast("Assigning token...");
                           await assignSoulboundToken(
                             provider,
                             signer,
                             selectedAddress,
                             assignAddress,
+                            dealId,
                             factoryIndex
                           );
+                          toast("Token assigned");
                         } catch (e) {
                           toast.error("Failed to assign token");
                         }
@@ -196,11 +221,156 @@ const AssignDialog = ({
   );
 };
 
+const NFTPreviewDialog = ({
+  selectedAddress,
+  cancelButtonRef,
+  setSelectedCollection,
+}) => {
+  const { factories } = useGetFactories();
+  const { address, isConnected } = useAccount();
+
+  const { metadata, isLoading, isError } =
+    useSoulboundMetadata(selectedAddress);
+
+  return (
+    <Transition.Root show={selectedAddress != null} as={Fragment}>
+      <Dialog
+        as="div"
+        className="relative z-10000"
+        initialFocus={cancelButtonRef}
+        onClose={setSelectedCollection}
+      >
+        <Transition.Child
+          as={Fragment}
+          enter="ease-out duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="ease-in duration-200"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+        </Transition.Child>
+
+        <div className="fixed inset-0 z-10 overflow-y-auto">
+          <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+              enterTo="opacity-100 translate-y-0 sm:scale-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+              leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+            >
+              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-xl max-w-2xl">
+                <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                  <div className="flex-shrink-0 grid grid-cols-3">
+                    <div className="h-300 w-300">
+                      <div className="w-300 h-300">
+                        <img
+                          src={
+                            metadata?.image ??
+                            "https://placeimg.com/400/225/grayscale"
+                          }
+                          alt="SBT"
+                          className="object-cover rounded-md w-300 h-300"
+                        />
+                      </div>
+                    </div>
+                    <div className="col-span-2 mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-200">
+                      <Dialog.Title
+                        as="h2"
+                        className="text-2xl font-bold leading-6 text-gray-900"
+                      >
+                        {metadata?.name ?? "Loading..."}
+                      </Dialog.Title>
+                      <div className="mt-2">
+                        <p className="text-sm text-black-500 font-bold">
+                          Description
+                        </p>
+                      </div>
+                      <div className="mt-2">
+                        <p className="text-sm text-gray-500">
+                          {metadata?.description ?? "Loading..."}
+                        </p>
+                      </div>
+                      <div className="mt-2">
+                        <p className="text-sm text-black-500 font-bold">
+                          Creation Date
+                        </p>
+                      </div>
+                      <div className="mt-2">
+                        <p className="text-sm text-gray-500">
+                          {metadata?.properties?.date ?? "November 20, 2022"}
+                        </p>
+                      </div>
+                      <div className="mt-2">
+                        <p className="text-sm text-black-500 font-bold">
+                          Issuer
+                        </p>
+                      </div>
+                      <div className="mt-2">
+                        <p className="text-sm text-gray-500">
+                          {metadata?.properties?.issuerName ??
+                            shortAddress(address)}
+                        </p>
+                      </div>
+                      <div className="mt-2">
+                        <p className="text-sm text-black-500 font-bold">
+                          Token Factory
+                        </p>
+                      </div>
+                      <div className="mt-2">
+                        <p className="text-sm text-gray-500">
+                          {metadata?.properties?.factory != null
+                            ? factories.find(
+                                (x) => x.id == metadata.properties.factory
+                              ).name ?? ""
+                            : ""}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="bg-gray-50 px-4 py-3 flex justify-between items-center w-100">
+                  <div className="pr-5">
+                    <p className="text-md text-black-500">Claim</p>
+                  </div>
+                  <button
+                    type="button"
+                    className="ml-5 text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                    onClick={async () => {
+                      setSelectedCollection(null);
+                    }}
+                  >
+                    <svg
+                      x="0px"
+                      y="0px"
+                      viewBox="0 0 512 512"
+                      className="w-5  h-5"
+                    >
+                      <path d="M503.138,3.233c-3.31-3.288-8.304-4.162-12.532-2.19L12.003,223.649c-3.772,1.755-6.25,5.469-6.424,9.625    c-0.174,4.159,1.984,8.066,5.598,10.13l153.15,87.515l98.667,175.405c1.978,3.516,5.69,5.675,9.701,5.675    c0.157,0,0.315-0.007,0.478-0.011c4.185-0.181,7.918-2.697,9.652-6.518L505.432,15.739C507.361,11.5,506.443,6.512,503.138,3.233z     M40.91,234.758L441.264,48.544L170.805,308.985L40.91,234.758z M271.641,476.294l-85.197-151.463L460.397,61.026L271.641,476.294    z" />
+                    </svg>
+
+                    <span className="sr-only">Icon description</span>
+                  </button>
+                </div>
+              </Dialog.Panel>
+            </Transition.Child>
+          </div>
+        </div>
+      </Dialog>
+    </Transition.Root>
+  );
+};
+
 const AssignedDialog = ({
   selectedAddress,
   cancelButtonRef,
   setSelectedCollection,
 }) => {
+  const { factories } = useGetFactories();
   const { data: signer } = useSigner(chainId);
   const provider = useProvider(chainId);
   const { address, isConnected } = useAccount();
@@ -299,7 +469,11 @@ const AssignedDialog = ({
                       </div>
                       <div className="mt-2">
                         <p className="text-sm text-gray-500">
-                          {metadata?.properties?.factory}
+                          {metadata?.properties?.factory != null
+                            ? factories.find(
+                                (x) => x.id == metadata.properties.factory
+                              ).name ?? ""
+                            : ""}
                         </p>
                       </div>
                     </div>
@@ -313,11 +487,17 @@ const AssignedDialog = ({
                     type="button"
                     className="ml-5 text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
                     onClick={async () => {
-                      await claimSoulboundToken(
-                        provider,
-                        signer,
-                        selectedAddress
-                      );
+                      toast("Claiming token...");
+                      try {
+                        await claimSoulboundToken(
+                          provider,
+                          signer,
+                          selectedAddress
+                        );
+                        toast("Token claimed");
+                      } catch (e) {
+                        toast.error("Failed to claim token");
+                      }
                       setSelectedCollection(null);
                     }}
                   >
@@ -367,13 +547,18 @@ const AssignCard = ({ collectionAddress, setSelectedCollection }) => {
   );
 };
 
-const IssuedCard = ({ collectionAddress, receiver }) => {
+const IssuedCard = ({ collectionAddress, receiver, setSelectedCollection }) => {
   const { data, hasData } = useWasMintConfirmed(receiver, collectionAddress);
   const { metadata, isLoading, isError } =
     useSoulboundMetadata(collectionAddress);
 
   return (
-    <div className="card w-64 bg-base-100 shadow-md cursor-pointer">
+    <div
+      className="card w-64 bg-base-100 shadow-md cursor-pointer"
+      onClick={() => {
+        setSelectedCollection(collectionAddress);
+      }}
+    >
       <figure className="px-2 pt-2">
         <img
           src={metadata?.image ?? "https://placeimg.com/400/225/grayscale"}
@@ -399,22 +584,8 @@ const AssignedCard = ({
   completed,
   setSelectedCollection,
 }) => {
-  const { tokenURI, isError, isLoading, error } =
-    useTokenURI(collectionAddress);
-  const [metadata, setMetadata] = useState({});
-
-  useEffect(() => {
-    if (tokenURI) {
-      let ipfsParts = (tokenURI ?? "a/b").replace("ipfs://", "").split("/");
-      let ipfsHash = ipfsParts[0];
-      let ipfsFile = ipfsParts[1];
-      let uri = `https://${ipfsHash}.ipfs.nftstorage.link/${ipfsFile}`;
-
-      axios.get(uri).then((value) => {
-        setMetadata(value.data);
-      });
-    }
-  }, [tokenURI]);
+  const { metadata, isLoading, isError } =
+    useSoulboundMetadata(collectionAddress);
 
   return (
     <div
@@ -488,6 +659,12 @@ const assign = () => {
           cancelButtonRef={cancelButtonRef}
           setSelectedCollection={setSelectedCollection}
         />
+      ) : mode == Mode.IssuedTokens ? (
+        <NFTPreviewDialog
+          selectedAddress={selectedAddress}
+          cancelButtonRef={cancelButtonRef}
+          setSelectedCollection={setSelectedCollection}
+        />
       ) : null}
       <div className="flex justify-center items-center">
         <div className="card md:card-side self-center bg-white w-8/12 border-[2px] border-[#f2dbd0] rounded-2xl p-4">
@@ -533,6 +710,7 @@ const assign = () => {
                         <IssuedCard
                           collectionAddress={issuedMint.collection}
                           receiver={issuedMint.receiver}
+                          setSelectedCollection={setSelectedCollection}
                         />
                       ))
                     )

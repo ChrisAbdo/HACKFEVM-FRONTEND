@@ -1,5 +1,6 @@
 import { ethers } from "ethers";
-import ISoulboundERC721ABI from "../constants/abi/ISoulboundERC721.json";
+import SoulboundERC721ABI from "../constants/abi/SoulboundERC721.json";
+import DemeritSoulboundERC721ABI from "../constants/abi/DemeritSoulboundERC721.json";
 import { getMaxPriorityFeePerGas } from "./getMaxPriorityFeePerGas";
 
 export async function assignSoulboundToken(
@@ -7,6 +8,7 @@ export async function assignSoulboundToken(
   signer,
   collectionAddress,
   receiver,
+  dealId,
   factoryIndex
 ) {
   let maxPriorityFee = await getMaxPriorityFeePerGas(provider);
@@ -18,12 +20,12 @@ export async function assignSoulboundToken(
   switch (factoryIndex) {
     case 0:
     case 1:
-      artifact = ISoulboundERC721ABI;
+      artifact = SoulboundERC721ABI;
       functionName = "issue";
       args = [receiver];
       break;
     case 2:
-      artifact = DemeritFactoryABI;
+      artifact = DemeritSoulboundERC721ABI;
       functionName = "assign";
       args = [receiver, dealId];
       break;
