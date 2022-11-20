@@ -181,7 +181,7 @@ const create = () => {
                         <span className="truncate w-44">{file.name}</span>
                       </div>
                       <div
-                        onClick={async () => {
+                        onClick={() => {
                           removeImage(file.name);
                         }}
                         className="h-6 w-6 bg-red-400 flex items-center cursor-pointer justify-center rounded-sm"
