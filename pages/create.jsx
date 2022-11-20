@@ -15,7 +15,7 @@ const create = () => {
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDA0MzVEOTI2Y2UzOTZkZDE5NURkZTEwMzMyODBBQUY3MTA4NTAxMUMiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY2ODkxNDc2NTMxNCwibmFtZSI6ImhhY2thdGhvbiJ9.5eYvOa09fK59JhK-y4-M-aY8miNnCL4B0bSfFbejd-w";
   const client = new NFTStorage({ token: API_TOKEN });
 
-  const [files, setFile] = useState([]);
+  const [files, setFile] = useState(0);
   const [message, setMessage] = useState();
   const [selectedFactoryIndex, setSelectedFactoryIndex] = useState(0);
   const { factories } = useGetFactories();
@@ -27,7 +27,19 @@ const create = () => {
       const fileType = file[i]["type"];
       const validImageTypes = ["image/gif", "image/jpeg", "image/png"];
       if (validImageTypes.includes(fileType)) {
-        setFile([...files, file[i]]);
+        setFile(file);
+        // replace id="filecontainer" with the image preview and remove the text drag and drop
+        const fileContainer = document.getElementById("filecontainer");
+        fileContainer.innerHTML = "";
+        const img = document.createElement("img");
+        img.src = URL.createObjectURL(file[i]);
+        img.width = 200;
+        img.height = 200;
+        fileContainer.appendChild(img);
+
+        // also show the name of the file
+        const fileName = document.getElementById("filename");
+        fileName.innerHTML = file[i].name;
       } else {
         setMessage("only images accepted");
       }
@@ -178,7 +190,13 @@ const create = () => {
                 <div className="h-full w-full bg-[#e4e4e4] absolute z-1 flex justify-center items-center top-0">
                   <div className="flex flex-col">
                     <i className="mdi mdi-folder-open text-[30px] text-black text-center"></i>
-                    <span className="text-lg">{`Drag and drop your token image here`}</span>
+                    <span
+                      id="filecontainer"
+                      className="text-lg"
+                    >{`Drag and drop your token image here`}</span>
+                    <span id="filename" className="text-sm">
+                      {files.length > 0 ? files[0].name : ""}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -187,34 +205,7 @@ const create = () => {
                   Please upload .png or .jpg files only, max 10MB
                 </h1>
               </div>
-              <div className="flex flex-wrap gap-2 mt-2">
-                {files.map((file, key) => {
-                  return (
-                    <div
-                      key={key}
-                      className="w-full h-16 flex items-center justify-between rounded p-3 bg-white"
-                    >
-                      <div className="flex flex-row items-center gap-2">
-                        <div className="h-12 w-12 ">
-                          <img
-                            className="w-full h-full rounded"
-                            src={URL.createObjectURL(file)}
-                          />
-                        </div>
-                        <span className="truncate w-44">{file.name}</span>
-                      </div>
-                      <div
-                        onClick={() => {
-                          removeImage(file.name);
-                        }}
-                        className="h-6 w-6 bg-red-400 flex items-center cursor-pointer justify-center rounded-sm"
-                      >
-                        <i className="mdi mdi-trash-can text-white text-[14px]"></i>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
+              <div className="flex flex-wrap gap-2 mt-2"></div>
             </div>
           </div>
         </div>
