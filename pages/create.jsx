@@ -108,12 +108,10 @@ const create = () => {
                   }
                 }
                 const metadata = await client.store(ipfsMetadata)
-                console.log(metadata)
                 
                 // little hacky but easiest way to construct the ipfs hash which should be something like:
                 // bafyreihkw75u3ftad3xmgqfektvbhp65cnbrv25pwb6tr3tzuihffu66jy/metadata.json
                 const ipfsHash = metadata.ipnft + "/metadata.json"
-                console.log(ipfsHash)
 
                 let dealId = Math.floor(Math.random() * 10_000);
                 await createDeal(provider, signer, dealId, ipfsHash, 1000_000);
