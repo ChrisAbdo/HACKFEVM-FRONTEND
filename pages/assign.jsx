@@ -2,7 +2,12 @@ import React, { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useGetDeployedAddresses } from "../hooks/useStorageHooks";
 import { useSoulboundMetadata } from "../hooks/useSoulboundMetadata";
-import { useAccount } from "wagmi";
+import { useAccount, useProvider, useSigner } from "wagmi";
+import { ethers } from "ethers";
+import toast from "react-hot-toast";
+import chainId from "../constants/chainId";
+import { useGetFactories } from "../hooks/useEngineHooks";
+import axios from "axios";
 
 const AssignDialog = ({
   selectedAddress,
@@ -10,9 +15,13 @@ const AssignDialog = ({
   setSelectedCollection,
   collectionAddress,
 }) => {
-  const { metadata, isError, isLoading } =
-    useSoulboundMetadata(collectionAddress);
+  const { factories } = useGetFactories();
+  const { data: signer } = useSigner(chainId);
+  const provider = useProvider(chainId);
   const { address, isConnected } = useAccount();
+  const [assignAddress, setAssignAddress] = useState("");
+
+  const { metadata, isLoading, isError } = useSoulboundMetadata(collectionAddress)
 
   return (
     <Transition.Root show={selectedAddress != null} as={Fragment}>
@@ -150,8 +159,9 @@ const AssignDialog = ({
 };
 
 const Card = ({ collectionAddress, setSelectedCollection }) => {
-  const { metadata, isError, isLoading } =
-    useSoulboundMetadata(collectionAddress);
+
+  const { metadata, isLoading, isError } = useSoulboundMetadata(collectionAddress)
+
   return (
     <div
       className="card w-64 bg-base-100 shadow-md cursor-pointer"
