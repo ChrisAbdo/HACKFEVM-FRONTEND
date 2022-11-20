@@ -28,16 +28,12 @@ Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&ut
 
 ### TODO
 
-- Remove click-to-claim
-- Add NFT preview for the other 2 tabs
-
-// Other people
-
 - Creation Date should enforce a date - date picker maybe?
 - Available underline
 - File uploading should be just 1
 - File uploaded should replace the gray square
 - Assign NFT previews - Images should be the same size, or at least scaled to the same width or height
+- Assign page's NFTPreviewDialog's button should be a "Exit" button. Maybe a red X?
 
 ### Presentation Notes
 
