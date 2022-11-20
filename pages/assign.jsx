@@ -395,7 +395,10 @@ const AssignCard = ({ collectionAddress, setSelectedCollection }) => {
 };
 
 const IssuedCard = ({ collectionAddress, receiver, setSelectedCollection }) => {
-  const { data, hasData } = useWasMintConfirmed(receiver, collectionAddress);
+  const { data: completed, hasData } = useWasMintConfirmed(
+    receiver,
+    collectionAddress
+  );
   const { metadata, isLoading, isError } =
     useSoulboundMetadata(collectionAddress);
 
@@ -416,7 +419,7 @@ const IssuedCard = ({ collectionAddress, receiver, setSelectedCollection }) => {
       <div className="card-body items-center text-center p-6">
         <h2 className="card-title">{metadata?.name ?? "Loading..."}</h2>
         <p>
-          {hasData && data
+          {hasData && completed
             ? `Assigned to ${shortAddress(receiver)}`
             : `Pending claim by ${shortAddress(receiver)}...`}
         </p>
