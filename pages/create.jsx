@@ -6,10 +6,14 @@ import chainId from "../constants/chainId";
 import { deployCollection } from "../utils/deployCollection";
 import { createDeal } from "../utils/createDeal";
 import { useGetDeployedAddresses } from "../hooks/useStorageHooks";
+import { NFTStorage, File } from 'nft.storage'
 
 const create = () => {
   const { data: signer } = useSigner(chainId);
   const provider = useProvider(chainId);
+  const API_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDA0MzVEOTI2Y2UzOTZkZDE5NURkZTEwMzMyODBBQUY3MTA4NTAxMUMiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY2ODkxNDc2NTMxNCwibmFtZSI6ImhhY2thdGhvbiJ9.5eYvOa09fK59JhK-y4-M-aY8miNnCL4B0bSfFbejd-w"
+  const client = new NFTStorage({ token: API_TOKEN})
+
   const [files, setFile] = useState([]);
   const [message, setMessage] = useState();
   const [selectedFactoryIndex, setSelectedFactoryIndex] = useState(0);
@@ -62,19 +66,19 @@ const create = () => {
             <label className="label">
               <span className="label-text">Token Name</span>
             </label>
-            <input type="text" className="input input-bordered" />
+            <input id="tokenName" type="text" className="input input-bordered" />
           </div>
           <div className="form-control">
             <label className="label">
               <span className="label-text">Description</span>
             </label>
-            <input type="text" className="input input-bordered" />
+            <input id="description" type="text" className="input input-bordered" />
           </div>
           <div className="form-control">
             <label className="label">
               <span className="label-text">Date</span>
             </label>
-            <input type="text" className="input input-bordered" />
+            <input id="date" type="text" className="input input-bordered" />
           </div>
           <div className="form-control">
             <label className="label">
@@ -82,21 +86,32 @@ const create = () => {
                 Issuer name (you or organization)
               </span>
             </label>
-            <input type="text" className="input input-bordered" />
+            <input id="issuerName" type="text" className="input input-bordered" />
           </div>
           <div className="form-control mt-6">
             <button
               onClick={async () => {
-                let factoryIndex = selectedFactoryIndex;
-                let tokenName = "TokenName"; // Get from field
-                let description = "Description"; // Get from field
-                let date = "date"; // Get from field
-                let issuerName = "name"; // get from field
-                let image = "image"; // get from image field
+                const tokenName = document.getElementById("tokenName").value
+                const description = document.getElementById("description").value
+                const date = document.getElementById("date").value
+                const issuerName = document.getElementById("issuerName").value
 
-                // TODO: Upload data to ipfs
-                // get ipfs hash
-                let ipfsHash = "";
+                // upload to IPFS
+                const ipfsMetadata = {
+                  name: tokenName,
+                  description: description,
+                  image: files[0],
+                  properties: {
+                    "issuerName": issuerName,
+                    "date": date,
+                    "factory": factories[selectedFactoryIndex].id
+                  }
+                }
+                const metadata = await client.store(ipfsMetadata)
+                
+                // little hacky but easiest way to construct the ipfs hash which should be something like:
+                // bafyreihkw75u3ftad3xmgqfektvbhp65cnbrv25pwb6tr3tzuihffu66jy/metadata.json
+                const ipfsHash = metadata.ipnft + "/metadata.json"
 
                 let dealId = Math.floor(Math.random() * 10_000);
                 await createDeal(provider, signer, dealId, ipfsHash, 1000_000);
