@@ -21,8 +21,8 @@ import { claimSoulboundToken } from "../utils/claimSoulboundToken";
 
 const Mode = {
   OwnedCollections: 0,
-  IssuedTokens: 1,
-  ReceivedTokens: 2,
+  Pending: 1,
+  Assigned: 2,
 };
 
 const AssignDialog = ({
@@ -31,6 +31,7 @@ const AssignDialog = ({
   setSelectedCollection,
 }) => {
   const { factories } = useGetFactories();
+  console.info(factories);
   const { data: signer } = useSigner(chainId);
   const provider = useProvider(chainId);
   const { address, isConnected } = useAccount();
@@ -159,12 +160,16 @@ const AssignDialog = ({
                     onClick={async () => {
                       if (ethers.utils.isAddress(assignAddress)) {
                         let factoryId = metadata?.properties?.factory;
-                        let factoryIndex = Math.min(
+                        let factoryIndex = Math.max(
                           factories.findIndex((x) => x.id == factoryId),
                           0
                         );
 
                         let dealId = Math.floor(Math.random() * 10_000);
+                        console.info(
+                          factoryIndex,
+                          factories.findIndex((x) => x.id == factoryId)
+                        );
 
                         // Demerit hardcode
                         if (factoryIndex == 2) {
@@ -175,7 +180,7 @@ const AssignDialog = ({
                             assignAddress
                           );
                           toast(
-                            "[MOCK]: Creating deal the that deserves demerit..."
+                            "[MOCK]: Creating deal that deserves demerit..."
                           );
                           await createDeal(provider, signer, dealId, "", 0);
                         }
@@ -570,7 +575,7 @@ const IssuedCard = ({ collectionAddress, receiver, setSelectedCollection }) => {
         <h2 className="card-title">{metadata?.name ?? "Loading..."}</h2>
         <p>
           {hasData && data
-            ? `Claimed by ${shortAddress(receiver)}`
+            ? `Assigned to ${shortAddress(receiver)}`
             : `Pending claim by ${shortAddress(receiver)}...`}
         </p>
       </div>
@@ -653,13 +658,7 @@ const assign = () => {
           cancelButtonRef={cancelButtonRef}
           setSelectedCollection={setSelectedCollection}
         />
-      ) : mode == Mode.ReceivedTokens ? (
-        <AssignedDialog
-          selectedAddress={selectedAddress}
-          cancelButtonRef={cancelButtonRef}
-          setSelectedCollection={setSelectedCollection}
-        />
-      ) : mode == Mode.IssuedTokens ? (
+      ) : mode == Mode.Assigned || mode == Mode.Pending ? (
         <NFTPreviewDialog
           selectedAddress={selectedAddress}
           cancelButtonRef={cancelButtonRef}

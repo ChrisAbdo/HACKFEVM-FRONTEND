@@ -16,7 +16,7 @@ export function useGetFactories() {
     },
     {
       name: "Demerit Factory",
-      id: ethers.utils.keccak256(ethers.utils.toUtf8Bytes("deal")),
+      id: ethers.utils.keccak256(ethers.utils.toUtf8Bytes("demerit")),
     },
   ];
 

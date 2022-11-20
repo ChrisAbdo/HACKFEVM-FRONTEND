@@ -38,3 +38,8 @@ Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&ut
 - File uploading should be just 1
 - File uploaded should replace the gray square
 - Assign NFT previews - Images should be the same size, or at least scaled to the same width or height
+
+### Presentation Notes
+
+- Setup demo address with oracle ahead of time
+- Upload image to IPFS ahead of time

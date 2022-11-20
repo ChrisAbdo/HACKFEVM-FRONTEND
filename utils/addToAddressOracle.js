@@ -8,7 +8,7 @@ export async function addToAddressOracle(provider, signer, address) {
   let maxPriorityFee = await getMaxPriorityFeePerGas(provider);
 
   const contract = new ethers.Contract(
-    Contracts.AddressOracleABI,
+    Contracts.AddressOracle,
     AddressOracleABI.abi,
     signer
   );
