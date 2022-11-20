@@ -81,6 +81,7 @@ const create = () => {
               id="tokenName"
               type="text"
               className="input input-bordered"
+              value="HackFEVM Successful Submission"
             />
           </div>
           <div className="form-control">
@@ -91,13 +92,19 @@ const create = () => {
               id="description"
               type="text"
               className="input input-bordered"
+              value="Congratulations on submitting for the HackFEVM 2022 hackathon!"
             />
           </div>
           <div className="form-control">
             <label className="label">
               <span className="label-text">Date</span>
             </label>
-            <input id="date" type="text" className="input input-bordered" />
+            <input
+              id="date"
+              type="text"
+              className="input input-bordered"
+              value="November 20, 2022"
+            />
           </div>
           <div className="form-control">
             <label className="label">
@@ -109,6 +116,7 @@ const create = () => {
               id="issuerName"
               type="text"
               className="input input-bordered"
+              value="EthGlobal"
             />
           </div>
           <div className="form-control mt-6">
