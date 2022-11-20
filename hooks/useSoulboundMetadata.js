@@ -27,12 +27,13 @@ export function useSoulboundMetadata(address) {
 
   if (metadata != undefined) {
     let currentImageUri = metadata.image;
-    let imageParts = currentImageUri.replace("ipfs://", "").split("/");
-    let imageHash = imageParts[0];
-    let imageFile = imageParts[1];
-    let imageUri = `https://${imageHash}.ipfs.nftstorage.link/${imageFile}`;
-
-    metadata.image = imageUri
+    if (currentImageUri.includes("ipfs://")) {
+        let imageParts = currentImageUri.replace("ipfs://", "").split("/");
+        let imageHash = imageParts[0];
+        let imageFile = imageParts[1];
+        let imageUri = `https://${imageHash}.ipfs.nftstorage.link/${imageFile}`;
+        metadata.image = imageUri
+    }
   }
 
   const isLoading = isLoadingMetadata || loading;
